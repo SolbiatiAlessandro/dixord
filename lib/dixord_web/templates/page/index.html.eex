@@ -1,0 +1,12 @@
+<!-- The list of messages will appear here: -->
+<ul id='msg-list' style='list-style: none; min-height:200px; padding: 10px;'></ul>
+
+<div class="row">
+  <div class="col-xs-3">
+    <input type="text" id="name" class="form-control" placeholder="Your Name" autofocus>
+  </div>
+  <div class="col-xs-9">
+    <input type="text" id="msg" class="form-control" placeholder="Your Message">
+  </div>
+  <button id="send" type="button" class="btn btn-primary">Send</button>
+</div>
