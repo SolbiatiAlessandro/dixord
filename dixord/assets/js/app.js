@@ -17,29 +17,24 @@ import "phoenix_html"
 import socket from "./socket"
 
 let channel = socket.channel("room:lobby", {})
+console.log(channel)
+
 channel.on('shout', function (payload) {
-	console.log("receiving shout ")
 	let li = document.createElement("li");
-	let name = payload.name || 'guest';
-	li.innerHtml = '<b>' + name + '</b>';
+	li.innerText = payload.name + ": " + payload.message;
 	ul.appendChild(li);
 });
 
 channel.join();
+console.log(channel)
 
 let ul = document.getElementById('msg-list');
 let name = document.getElementById('name');
 let msg = document.getElementById('msg');
 
 msg.addEventListener('keypress', function (event) {
-	console.log("keypress")
-	if (msg.value.lenght > 0){
-		console.log("shouting ")
-		console.log(msg.value)
-		channel.push('shout', {
-			name: name.value,
-			message: msg.value
-		});
-		msg.value = '';
-	}
+	channel.push('shout', {
+		name: name.value,
+		message: msg.value
+	});
 });
