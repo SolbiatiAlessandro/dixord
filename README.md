@@ -4,6 +4,14 @@
 Open source Discord clone build in Elixir, live at https://dixord.herokuapp.com
 Read the blog post at http://www.lessand.ro/15/post.
 
+## Dixord docs
+
+ExDoc looks like an interesting tool to use, https://elixirschool.com/en/lessons/basics/documentation/#exdoc.
+I should figure out how to host it in the current app. Will move this stuff there when ready.
+
+Some resources: 
+- directory strucutre: https://hexdocs.pm/phoenix/directory_structure.html
+
 ## Phoenix
 
 To start your Phoenix server:
