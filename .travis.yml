@@ -1,5 +1,6 @@
-language: 
-  - elixir: '1.10'
+language: elixir
+elixir: 
+    - 1.10
 addons: # ensure that Travis-CI provisions a DB for our test:
   postgresql: '9.5'
 script:
