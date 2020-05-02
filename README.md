@@ -1,7 +1,7 @@
 # Dixord
 [![Build Status](https://travis-ci.com/SolbiatiAlessandro/dixord.svg)](https://travis-ci.com/SolbiatiAlessandro/dixord) [![codecov](https://codecov.io/gh/SolbiatiAlessandro/dixord/branch/master/graph/badge.svg)](https://codecov.io/gh/SolbiatiAlessandro/dixord)
 
-Open source Discord clone build in Elixir.
+Open source Discord clone build in Elixir, live at https://dixord.herokuapp.com
 Read the blog post at http://www.lessand.ro/15/post.
 
 ## Phoenix
