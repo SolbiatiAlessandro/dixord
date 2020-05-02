@@ -10,10 +10,11 @@ use Mix.Config
 # which you should run after static files are built and
 # before starting your production server.
 config :dixord, DixordWeb.Endpoint,
-  url: [host: "example.com", port: 80],
+  url: [scheme: "https", host: "dixord.herokuapp.com/", port: 443],
   cache_static_manifest: "priv/static/cache_manifest.json"
+  secret_key_base: Map.fetch!(System.get_env(), "SECRET_KEY_BASE")
 
-config :dixord, DixordWeb.Repo,
+config :database, DixordWeb.Repo,
   adapter: Ecto.Adapters.Postgres,
   url: System.get_env("DATABASE_URL"),
   pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
