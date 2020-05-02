@@ -21,7 +21,7 @@ console.log(channel)
 
 channel.on('shout', function (payload) {
 	let li = document.createElement("li");
-	li.innerText = payload.name + ": " + payload.message;
+	li.innerHTML = '<b>' + payload.name + "</b> : " + payload.message;
 	ul.appendChild(li);
 });
 
@@ -31,8 +31,9 @@ console.log(channel)
 let ul = document.getElementById('msg-list');
 let name = document.getElementById('name');
 let msg = document.getElementById('msg');
+let send_button = document.getElementById('send');
 
-msg.addEventListener('keypress', function (event) {
+send_button.addEventListener('click', function (event) {
 	channel.push('shout', {
 		name: name.value,
 		message: msg.value

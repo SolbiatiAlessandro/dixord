@@ -8,4 +8,5 @@
   <div class="col-xs-9">
     <input type="text" id="msg" class="form-control" placeholder="Your Message">
   </div>
+  <button id="send" type="button" class="btn btn-primary">Send</button>
 </div>
