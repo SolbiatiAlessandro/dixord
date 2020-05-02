@@ -1,6 +1,6 @@
 defmodule Dixord do
   @moduledoc """
-  These are the Dixord docs. We suggest starting from [Dixord Introduction](https://dixord.herokuapp.com/docs/Dixord.html).
+  These are the Dixord docs. We suggest starting from [Dixord Introduction](https://dixord.herokuapp.com/Dixord.html).
 
   Dixord is an open source discord clone built in Elixir.
   Is great if you want to learn how to build a chat app in Elixir.
@@ -20,5 +20,23 @@ defmodule Dixord do
 
   - https://github.com/phoenixframework/phoenix
   - https://github.com/thechangelog/changelog.com
+
+  # Dev Workflow
+
+  Edit code
+  `mix compile`
+  `mix phx.server`, this might have connections already present and throw
+  and `address already in use`. You can use `kill -9 (lsof -ti :4000)`
+  to kill all existing processes
+  git add *
+  git commit 
+  git push heroku master
+
+  # Dixord Architecture
+
+  Dixord is built in Phoenix in the backend, and for now
+  in the front-end we just use Elixir templates and Bootstrap.
+  We didn't go for more complex solutions (React) because the project 
+  is still early.
   """
 end

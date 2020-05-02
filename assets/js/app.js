@@ -29,13 +29,11 @@ channel.join();
 console.log(channel)
 
 let ul = document.getElementById('msg-list');
-let name = document.getElementById('name');
 let msg = document.getElementById('msg');
 let send_button = document.getElementById('send');
 
 send_button.addEventListener('click', function (event) {
 	channel.push('shout', {
-		name: name.value,
 		message: msg.value
 	});
 });
