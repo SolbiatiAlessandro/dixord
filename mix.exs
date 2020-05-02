@@ -47,7 +47,7 @@ defmodule Dixord.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:excoveralls, "~> 0.7.0", only: [:test, :dev]},
-	  {:ex_doc, "~> 0.21", only: :dev, runtime: false},
+	  {:ex_doc, "~> 0.21"},
     ]
   end
 
