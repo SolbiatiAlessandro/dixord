@@ -19,8 +19,18 @@ import {Socket} from "phoenix"
 
 import LiveSocket from "phoenix_live_view"
 
+console.log('test')
+// hack to contextualise function
+// https://elixirforum.com/t/functions-in-app-js-wont-fire/10437/2
+// need to fix later following thiis
+// https://elixirschool.com/blog/live-view-with-channels/
+window.scrollToLastMessage = function scrollToLastMessage(){
+	$('#msg-list').children()[$('#msg-list').children().length - 1].scrollIntoView()
+}
+
 let liveSocket = new LiveSocket("/live", Socket)
 liveSocket.connect()
+
 
 // DEPRECATING AND GOING FOR LIVE VIEW
 /*

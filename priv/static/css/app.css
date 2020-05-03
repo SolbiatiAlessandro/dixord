@@ -57,5 +57,13 @@ body{
     width: 80%;
 }
 
+.chatview {
+   list-style: none;
+   min-height:200px;
+   padding: 10px;
+   max-height: 85vh;
+   overflow: auto;
+   }
+
 	
 
