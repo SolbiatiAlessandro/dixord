@@ -36,3 +36,8 @@ body{
   color: #dcddde;
   background-color: #36393f; 
 }
+
+.livechat-row img {
+  border-radius: 50%;
+  height: 50px;
+}

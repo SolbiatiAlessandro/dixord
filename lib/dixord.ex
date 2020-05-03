@@ -36,9 +36,8 @@ defmodule Dixord do
 
   # Dixord Architecture
 
-  Dixord is built in Phoenix in the backend, and for now
-  in the front-end we just use Elixir templates and Bootstrap.
-  We didn't go for more complex solutions (React) because the project 
-  is still early.
+  Dixord is built in Phoenix and uses server side rendering with Pheonix
+  Live View. If you want to read more about how server side rendering works
+  yuo can look at Dixord.ChatLiveView docstring.
   """
 end
