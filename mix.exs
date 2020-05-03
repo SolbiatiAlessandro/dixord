@@ -5,7 +5,7 @@ defmodule Dixord.MixProject do
     [
       app: :dixord,
       version: "0.1.0",
-      elixir: "~> 1.10",
+      elixir: "~> 1.5",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
@@ -48,6 +48,7 @@ defmodule Dixord.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:excoveralls, "~> 0.7.0", only: [:test, :dev]},
 	  {:ex_doc, "~> 0.21"},
+	  {:phoenix_live_view, github: "phoenixframework/phoenix_live_view"},
     ]
   end
 

@@ -16,6 +16,13 @@ import "phoenix_html"
 // Local files can be imported directly using relative paths, for example:
 import socket from "./socket"
 
+import LiveSocket from "phoenix_live_view"
+
+let liveSocket = new LiveSocket("/live")
+liveSocket.connect()
+
+// DEPRECATING AND GOING FOR LIVE VIEW
+/*
 let channel = socket.channel("room:lobby", {})
 console.log(channel)
 
@@ -36,4 +43,4 @@ send_button.addEventListener('click', function (event) {
 	channel.push('shout', {
 		message: msg.value
 	});
-});
+});*/

@@ -1,5 +1,7 @@
 <!-- The list of messages will appear here: -->
-<ul id='msg-list' style='list-style: none; min-height:200px; padding: 10px;'></ul>
+<ul id='msg-list' style='list-style: none; min-height:200px; padding: 10px;'>
+  <%= live_render(@conn, Dixord.ChatLiveView) %>
+</ul>
 <div class="row text-input">
   <div class="col-9 pr-0">
     <input type="text" id="msg" class="form-control" placeholder="Message this chat">

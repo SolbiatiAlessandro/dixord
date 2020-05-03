@@ -42,6 +42,7 @@ defmodule DixordWeb do
       import DixordWeb.ErrorHelpers
       import DixordWeb.Gettext
       alias DixordWeb.Router.Helpers, as: Routes
+	  import Phoenix.LiveView.Helpers
     end
   end
 
@@ -50,6 +51,7 @@ defmodule DixordWeb do
       use Phoenix.Router
       import Plug.Conn
       import Phoenix.Controller
+	  import Phoenix.LiveView.Router
     end
   end
 

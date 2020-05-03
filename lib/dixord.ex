@@ -14,6 +14,8 @@ defmodule Dixord do
 
   - Directory Strucutre: https://hexdocs.pm/phoenix/directory_structure.html
   - Requests Cycle: https://hexdocs.pm/phoenix/request_lifecycle.html#content
+  - Live View https://hexdocs.pm/phoenix_live_view/Phoenix.LiveView.html
+  - Live View (chat) https://elixirschool.com/blog/live-view-with-presence/
 
   These are some other open source Elixir repo to have a look at the code
   to see the best practices
