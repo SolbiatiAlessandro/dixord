@@ -6,7 +6,7 @@ Read the blog post at http://www.lessand.ro/15/post.
 
 ## Docs
 
-You can read the docs at https://dixord.herokuapp.com/docs/index.html
+You can read the docs at https://dixord.herokuapp.com/index.html
 Docs are generated with ex\_doc, and served statically from `priv/static`.
 
 ## Phoenix
