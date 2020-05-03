@@ -12,6 +12,11 @@ defmodule DixordWeb.PageController do
   use DixordWeb, :controller
 
   def index(conn, _params) do
-    render(conn, "index.html", message: Dixord.Message.change_message())
+	 Phoenix.LiveView.Controller.live_render(
+	   conn,
+	   Dixord.ChatLiveView,
+	   session: %{}
+	 )
   end
+  
 end

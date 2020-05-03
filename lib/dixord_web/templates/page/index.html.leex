@@ -1,10 +1,26 @@
 <!-- The list of messages will appear here: -->
 <ul id='msg-list' style='list-style: none; min-height:200px; padding: 10px;'>
-  <%= live_render(@conn, Dixord.ChatLiveView) %>
+	  <p class="text-secondary">The following is all <b>server side rendered</b>...</p>
+	  <%= for message <- @messages do %>
+		<li class="mt-2 d-flex align-items-start livechat-row">
+		  <div class="mr-3">
+			<img src="https://discordapp.com/assets/6debd47ed13483642cf09e832ed0bc1b.png">
+		  </div>
+		  <div>
+			<div class="d-flex aligns-items-end">
+			  <h5 class="mr-3 mb-1"><%= message.name %></h5>
+			  <p class="font-weight-light text-secondary mb-1"><%= message.inserted_at %></p>
+			</div>
+			<div class="body">
+			  <p><%= message.message %></p>
+			</div>
+		  </div>
+		</li>
+	  <% end %>
 </ul>
 <div class="row text-input">
     <%= form_for @message, "#", [phx_submit: :message], fn _f -> %>
-    <%= text_input :message, :content, value: @message.changes[:content], placeholder: "write your me    ssage here..." %>
+    <%= text_input :message, :content, value: @message.changes[:content], placeholder: "write your message here..." %>
     <%= submit "submit" %>
     <% end %>
 <!-- <div class="col-9 pr-0">

@@ -16,7 +16,7 @@ defmodule DixordWeb.Router do
   scope "/", DixordWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
+    resources "/", PageController
   end
 
   # Other scopes may use custom stacks.
