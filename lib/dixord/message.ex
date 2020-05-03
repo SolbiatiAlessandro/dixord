@@ -10,7 +10,7 @@ defmodule Dixord.Message do
   end
 
   @doc false
-  def changeset(message, attrs) do
+  def changeset(message, attrs \\ %{}) do
     message
     |> cast(attrs, [:name, :message])
     |> validate_required([:name, :message])
@@ -18,5 +18,18 @@ defmodule Dixord.Message do
 
   def get_messages(limit \\ 20) do
     Dixord.Repo.all(Dixord.Message, limit: limit)
+  end
+
+  def create_message(message_params) do
+	Dixord.Message.changeset(%Dixord.Message{}, message_params)
+	|> Repo.insert!()
+  end
+
+  def change_message do
+	Dixord.Message.changeset(%Dixord.Message{})
+  end
+
+  def change_message(changeset, changes) do
+	Message.changeset(changeset, changes)
   end
 end

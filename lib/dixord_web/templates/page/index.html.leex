@@ -3,10 +3,14 @@
   <%= live_render(@conn, Dixord.ChatLiveView) %>
 </ul>
 <div class="row text-input">
-  <div class="col-9 pr-0">
+    <%= form_for @message, "#", [phx_submit: :message], fn _f -> %>
+    <%= text_input :message, :content, value: @message.changes[:content], placeholder: "write your me    ssage here..." %>
+    <%= submit "submit" %>
+    <% end %>
+<!-- <div class="col-9 pr-0">
     <input type="text" id="msg" class="form-control" placeholder="Message this chat">
   </div>
   <div class="col-3 pl-0">
 	<button id="send" type="button" class="btn btn-primary">Send</button>
-  </div>
+  </div> -->
 </div>

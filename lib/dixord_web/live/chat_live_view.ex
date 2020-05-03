@@ -32,6 +32,12 @@ defmodule Dixord.ChatLiveView do
 	  """
 	end
 
+	def handle_event("message", %{"message" => message_params}, socket) do
+	  Chats.create_message(message_params)
+	  messages = Dixord.Message.get_messages()
+	  {:noreply, assign(socket, :messages, messages)}
+	end
+
 	@impl true
     def mount(_params, _session, socket) do
 	  messages = Dixord.Message.get_messages()
