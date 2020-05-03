@@ -26,7 +26,7 @@
   padding-top: 48px; /* Space for fixed navbar */
 }
 
-.text-input {
+.composer {
   position: fixed;
   bottom: 20px;
   width: 100%;
@@ -41,4 +41,21 @@ body{
   border-radius: 50%;
   height: 50px;
 }
+
+.composer form{
+    display: flex !important;
+    width: 80%;
+}
+
+.composer input{
+    background-color: #40444b !important;
+    color: white !important;
+    border-width: 0 !important;
+    box-shadow: 0 0 0 0 black !important;
+    border-radius: 8px;
+    padding: 30px;
+    width: 80%;
+}
+
+	
 

@@ -22,7 +22,7 @@ defmodule Dixord.Message do
 
   def create_message(message_params) do
 	Dixord.Message.changeset(%Dixord.Message{}, message_params)
-	|> Repo.insert!()
+	|> Dixord.Repo.insert!()
   end
 
   def change_message do
