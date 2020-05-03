@@ -19,39 +19,14 @@ import {Socket} from "phoenix"
 
 import LiveSocket from "phoenix_live_view"
 
-console.log('test')
-// hack to contextualise function
-// https://elixirforum.com/t/functions-in-app-js-wont-fire/10437/2
-// need to fix later following thiis
-// https://elixirschool.com/blog/live-view-with-channels/
-window.scrollToLastMessage = function scrollToLastMessage(){
-	$('#msg-list').children()[$('#msg-list').children().length - 1].scrollIntoView()
+let Hooks = {}
+Hooks.MsgList = {
+	updated() {
+		console.log("msglist updated")
+		$('#msg-list').children()[$('#msg-list').children().length - 1].scrollIntoView()
+	}
 }
 
-let liveSocket = new LiveSocket("/live", Socket)
+let liveSocket = new LiveSocket("/live", Socket, {hooks: Hooks})
 liveSocket.connect()
-
-
-// DEPRECATING AND GOING FOR LIVE VIEW
-/*
-let channel = socket.channel("room:lobby", {})
-console.log(channel)
-
-channel.on('shout', function (payload) {
-	let li = document.createElement("li");
-	li.innerHTML = '<b>' + payload.name + "</b> : " + payload.message;
-	ul.appendChild(li);
-});
-
-channel.join();
-console.log(channel)
-
-let ul = document.getElementById('msg-list');
-let msg = document.getElementById('msg');
-let send_button = document.getElementById('send');
-
-send_button.addEventListener('click', function (event) {
-	channel.push('shout', {
-		message: msg.value
-	});
-});*/
+window.liveSocket = liveSocket

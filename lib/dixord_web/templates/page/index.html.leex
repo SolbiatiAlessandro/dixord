@@ -1,5 +1,5 @@
 <!-- The list of messages will appear here: -->
-<ul id='msg-list' class='chatview'>
+<ul id='msg-list' class='chatview' phx-hook="MsgList">
       <p class="text-secondary">The following is all <b>server side rendered</b>...</p>
       <%= for message <- @messages do %>
             <li class="mt-2 d-flex align-items-start livechat-row">
@@ -19,7 +19,7 @@
       <% end %>
 </ul>
 <div class="row composer ml-3 mr-3">
-    <%= form_for @message, "#", [phx_submit: :message, onsubmit: 'setTimeout(window.scrollToLastMessage, 200)'], fn _f -> %>
+    <%= form_for @message, "#", [phx_submit: :message], fn _f -> %>
     <%= text_input :message, :message, value: @message.changes[:message], placeholder: "Message this chat", class: 'form-control' %>
     <%= hidden_input :message, :name, value: 'Guest' %>
     <%= submit "send", class: 'd-none' %>

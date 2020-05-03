@@ -54,7 +54,7 @@ body{
     box-shadow: 0 0 0 0 black !important;
     border-radius: 8px;
     padding: 30px;
-    width: 80%;
+    width: 100%;
 }
 
 .chatview {
