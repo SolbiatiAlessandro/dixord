@@ -1,25 +1,25 @@
 <!-- The list of messages will appear here: -->
 <ul id='msg-list' class='chatview'>
-	  <p class="text-secondary">The following is all <b>server side rendered</b>...</p>
-	  <%= for message <- @messages do %>
-		<li class="mt-2 d-flex align-items-start livechat-row">
-		  <div class="mr-3">
-			<img src="https://discordapp.com/assets/6debd47ed13483642cf09e832ed0bc1b.png">
-		  </div>
-		  <div>
-			<div class="d-flex aligns-items-end">
-			  <h5 class="mr-3 mb-1"><%= message.name %></h5>
-			  <p class="font-weight-light text-secondary mb-1"><%= message.inserted_at %></p>
-			</div>
-			<div class="body">
-			  <p><%= message.message %></p>
-			</div>
-		  </div>
-		</li>
-	  <% end %>
+      <p class="text-secondary">The following is all <b>server side rendered</b>...</p>
+      <%= for message <- @messages do %>
+            <li class="mt-2 d-flex align-items-start livechat-row">
+              <div class="mr-3">
+                    <img src="https://discordapp.com/assets/6debd47ed13483642cf09e832ed0bc1b.png">
+              </div>
+              <div>
+                    <div class="d-flex aligns-items-end">
+                      <h5 class="mr-3 mb-1"><%= message.name %></h5>
+                      <p class="font-weight-light text-secondary mb-1"><%= message.inserted_at %></p>
+                    </div>
+                    <div class="body">
+                      <p><%= message.message %></p>
+                    </div>
+              </div>
+            </li>
+      <% end %>
 </ul>
-<div class="row composer ml-3">
-    <%= form_for @message, "#", [phx_submit: :message, onsubmit: 'setTimeout(window.scrollToLastMessage, 10)'], fn _f -> %>
+<div class="row composer ml-3 mr-3">
+    <%= form_for @message, "#", [phx_submit: :message, onsubmit: 'setTimeout(window.scrollToLastMessage, 200)'], fn _f -> %>
     <%= text_input :message, :message, value: @message.changes[:message], placeholder: "Message this chat", class: 'form-control' %>
     <%= hidden_input :message, :name, value: 'Guest' %>
     <%= submit "send", class: 'd-none' %>
