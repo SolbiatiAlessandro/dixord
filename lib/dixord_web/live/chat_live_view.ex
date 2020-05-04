@@ -28,9 +28,14 @@ defmodule Dixord.ChatLiveView do
   end
 
   @impl true
-  def mount(_params, _session, socket) do
+  def mount(_params, %{"current_user" => current_user}, socket) do
     DixordWeb.Endpoint.subscribe("lobby")
     messages = Dixord.Message.get_messages()
-    {:ok, assign(socket, messages: messages, message: Dixord.Message.change_message())}
+    {:ok, assign(
+      socket, 
+      messages: messages, 
+      message: Dixord.Message.change_message(),
+      current_user: current_user
+    )}
   end
 end

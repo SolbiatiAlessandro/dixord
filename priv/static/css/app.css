@@ -8,6 +8,16 @@
   box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
   background-color: #2f3136 !important;
 }
+.rhc-sidebar {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 100; /* Behind the navbar */
+  padding: 48px 0 0; /* Height of navbar */
+  box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+  background-color: #2f3136 !important;
+}
 
 .navbar-dark{
   background-color: #202225;
@@ -64,6 +74,13 @@ body{
    max-height: 85vh;
    overflow: auto;
    }
+
+.lhc-channel-name{
+    font-size: 22px;
+    color: #8e9297;
+}
+
+
 
 	
 

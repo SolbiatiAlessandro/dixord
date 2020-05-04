@@ -21,7 +21,7 @@
 <div class="row composer ml-3 mr-3">
     <%= form_for @message, "#", [phx_submit: :message], fn _f -> %>
     <%= text_input :message, :message, value: @message.changes[:message], placeholder: "Message this chat", class: 'form-control' %>
-    <%= hidden_input :message, :name, value: 'Guest' %>
+    <%= hidden_input :message, :name, value: @current_user %>
     <%= submit "send", class: 'd-none' %>
     <% end %>
 </div>

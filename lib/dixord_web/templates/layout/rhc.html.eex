@@ -1,0 +1,13 @@
+<div class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+          <h6 class="text-uppercase font-weight-bold mb-0">GUESTS—1</h6>
+</div>
+<ul class="nav flex-column lhc">
+      <li class="mt-2 d-flex align-items-center livechat-row p-3">
+        <div class="mr-3">
+              <img src="https://discordapp.com/assets/6debd47ed13483642cf09e832ed0bc1b.png">
+        </div>
+        <div>
+          <h5>Guest1529</h5>
+        </div>
+      </li>
+</ul>

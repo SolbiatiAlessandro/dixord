@@ -17,13 +17,18 @@
 	  <%= render "header.html" %>
     </header>
     <main role="main" class="row">
-	  <div class="col-md-2 d-none d-md-block bg-light sidebar">
+	  <div class="col-md-2 d-none d-md-block sidebar">
 		<div class="sidebar-sticky">
 		  <%= render "lhc.html" %>
 		</div>
 	  </div>
-	  <div class="col-md-9 ml-sm-auto col-lg-10 px-4">
+	  <div class="col-md-7 ml-sm-auto col-lg-10 px-4">
 		<%= render @view_module, @view_template, assigns %>
+	  </div>
+	  <div class="col-md-2 d-none d-md-block rhc-sidebar">
+		<div class="sidebar-sticky">
+		  <%= render "rhc.html" %>
+		</div>
 	  </div>
     </main>
     <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
