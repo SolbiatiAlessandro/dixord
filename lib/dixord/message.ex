@@ -4,7 +4,8 @@ defmodule Dixord.Message do
 
   schema "messages" do
     field :message, :string
-    field :name, :string
+    field :author_name, :string
+    field :profile_picture_url, :string
 
     timestamps()
   end
@@ -12,8 +13,8 @@ defmodule Dixord.Message do
   @doc false
   def changeset(message, attrs \\ %{}) do
     message
-    |> cast(attrs, [:name, :message])
-    |> validate_required([:name, :message])
+    |> cast(attrs, [:author_name, :message, :profile_picture_url])
+    |> validate_required([:author_name, :message, :profile_picture_url])
   end
 
   def get_messages(limit \\ 20) do

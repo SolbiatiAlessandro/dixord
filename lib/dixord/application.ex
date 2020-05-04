@@ -11,9 +11,10 @@ defmodule Dixord.Application do
       # Start the Ecto repository
       Dixord.Repo,
       # Start the endpoint when the application starts
-      DixordWeb.Endpoint
+      DixordWeb.Endpoint,
       # Starts a worker by calling: Dixord.Worker.start_link(arg)
-	  # {Dixord.Worker, arg},
+          # {Dixord.Worker, arg},
+      DixordWeb.Presence
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
