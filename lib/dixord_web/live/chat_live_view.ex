@@ -68,7 +68,7 @@ defmodule Dixord.ChatLiveView do
         profile_picture_url: current_user.profile_picture_url,
         typing: false
       }
-    )
+   )
     messages = Dixord.Message.get_messages()
     users = DixordWeb.Presence.list("lobby") 
             |> Enum.map(fn {_current_user, data} ->

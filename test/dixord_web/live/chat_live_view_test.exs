@@ -39,4 +39,19 @@ defmodule DixordWeb.ChatLiveViewTest do
       }
     ) =~ message_content
   end
+
+  @doc"""
+  test typing
+  
+  for some reason I can't assert ~= "is typing"
+  so I will just assert that the code doesn't break
+  a refernece is https://github.com/kerryb/quiz_buzz/blob/75a63ba0036cfda78af8facc931851f61921dc4a/test/quiz_buzz_web/live/home_live_test.exs
+  """
+  test "typing, not_typing" do
+    {:ok, view, html} = Phoenix.LiveViewTest.live(conn, "/")
+    assert Phoenix.LiveViewTest.render_change(view, :typing, %{message: ".."}) 
+    refute Phoenix.LiveViewTest.render_blur(
+      view, :stop_typing) =~ "is typing.."
+  end
+
 end
