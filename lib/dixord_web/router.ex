@@ -16,6 +16,7 @@ defmodule DixordWeb.Router do
   scope "/", DixordWeb do
     pipe_through :browser
 
+    resources "/users", UserController
     resources "/", PageController
   end
 
