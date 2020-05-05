@@ -5,5 +5,6 @@ addons: # ensure that Travis-CI provisions a DB for our test:
   postgresql: '9.5'
 script:
   - MIX_ENV=test mix test
+  - MIX_ENV=test mix do compile --warnings-as-errors, coveralls.json
 after_success:
   - bash <(curl -s https://codecov.io/bash)
