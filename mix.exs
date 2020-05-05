@@ -49,6 +49,7 @@ defmodule Dixord.MixProject do
       {:excoveralls, "~> 0.7.0", only: [:test, :dev]},
 	  {:ex_doc, "~> 0.21"},
 	  {:phoenix_live_view, github: "phoenixframework/phoenix_live_view"},
+	  {:floki, ">= 0.0.0", only: :test}
     ]
   end
 
