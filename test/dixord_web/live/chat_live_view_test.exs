@@ -20,6 +20,8 @@ defmodule DixordWeb.ChatLiveViewTest do
     # from the composer e.g. "Message this chat.."
     assert html =~ "Message"
     assert html =~ "Dixord"
+    # is guest authenticated?
+    assert html =~ "Guest"
   end
 
   @doc"""

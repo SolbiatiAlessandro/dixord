@@ -2,11 +2,11 @@ defmodule Dixord.Accounts do
   @moduledoc """
   The Accounts context.
   """
-
   import Ecto.Query, warn: false
   alias Dixord.Repo
 
   alias Dixord.Accounts.User
+
 
   @doc """
   Returns the list of users.
@@ -53,6 +53,23 @@ defmodule Dixord.Accounts do
     %User{}
     |> User.changeset(attrs)
     |> Repo.insert()
+  end
+
+  """
+  Creates a guest user with standard params
+
+  We put them in the database so that the messaging
+  logic can just pass around user ids and doesn't need
+  to know whether these are users or guests.
+  """
+  def create_guest_user() do
+    {:ok, user} =  %User{
+      claimed: false,
+      username: "Guest#{:rand.uniform(1000)}",
+      profile_picture_url: Application.fetch_env!(:dixord, :guests_profile_images) 
+      |> Map.values() 
+      |> Enum.random()
+    } |> Repo.insert()
   end
 
   @doc """

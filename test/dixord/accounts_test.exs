@@ -1,6 +1,6 @@
 defmodule Dixord.AccountsTest do
   use Dixord.DataCase
-
+  require Dixord.Accounts
   alias Dixord.Accounts
 
   describe "users" do
@@ -34,6 +34,17 @@ defmodule Dixord.AccountsTest do
       assert user.claimed == true
       assert user.profile_picture_url == "some profile_picture_url"
       assert user.username == "some username"
+    end
+
+    test "create_guest_user/0 creates a guest user" do
+      assert {:ok, %User{} = user} = Accounts.create_guest_user()
+      assert user.claimed == false
+      assert Enum.member?(
+        Application.fetch_env!(:dixord, :guests_profile_images) 
+        |> Map.values(),
+        user.profile_picture_url
+      )
+      assert user.username =~ "Guest"
     end
 
     test "create_user/1 with invalid data returns error changeset" do
