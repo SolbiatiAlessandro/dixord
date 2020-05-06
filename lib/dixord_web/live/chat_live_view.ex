@@ -9,7 +9,8 @@ defmodule Dixord.ChatLiveView do
   You could also render stuff from the controller/router if you wanted.
   """
   use Phoenix.LiveView
-  import Logger
+  require Dixord.Messaging
+  alias DixordWeb.Endpoint
 
   def render(assigns) do
     DixordWeb.PageView.render("index.html", assigns)
@@ -28,9 +29,20 @@ defmodule Dixord.ChatLiveView do
     {:noreply, assign(socket, users: users)}
   end
 
+  @doc"""
+  Callback function that gets triggered when a user sends a message
+  """
   def handle_event("message", %{"message" => message_params}, socket) do
-    Dixord.Message.create_message(message_params)
-    messages = Dixord.Message.get_messages()
+    # for some reason message_params has strings as key and I need atoms
+    # https://stackoverflow.com/questions/31990134
+    atom_message_params = for {key, val} <- message_params, into: %{}, do: {String.to_atom(key), val}
+
+    # can't send empty messages
+    if String.length(atom_message_params.content) > 0 do
+      Dixord.Messaging.create_message(atom_message_params, socket.assigns.current_user)
+    end
+
+    messages = Dixord.Messaging.list_messages()
     DixordWeb.Endpoint.broadcast_from(self(), "lobby", "message", %{messages: messages})
     {:noreply, assign(socket, :messages, messages)}
   end
@@ -69,7 +81,7 @@ defmodule Dixord.ChatLiveView do
         typing: false
       }
    )
-    messages = Dixord.Message.get_messages()
+    messages = Dixord.Messaging.list_messages()
     users = DixordWeb.Presence.list("lobby") 
             |> Enum.map(fn {_current_user, data} ->
               data[:metas]
@@ -78,9 +90,10 @@ defmodule Dixord.ChatLiveView do
     {:ok, assign(
       socket, 
       messages: messages, 
-      message: Dixord.Message.change_message(),
+      message: Dixord.Messaging.change_message(),
       current_user: current_user,
-      users: users
+      users: users,
+      conn: Endpoint
     )}
   end
 end

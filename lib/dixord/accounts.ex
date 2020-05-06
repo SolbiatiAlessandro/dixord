@@ -19,6 +19,7 @@ defmodule Dixord.Accounts do
   """
   def list_users do
     Repo.all(User)
+    |> Repo.preload([:messages])
   end
 
   @doc """
@@ -35,7 +36,7 @@ defmodule Dixord.Accounts do
       ** (Ecto.NoResultsError)
 
   """
-  def get_user!(id), do: Repo.get!(User, id)
+  def get_user!(id), do: Repo.get!(User, id) |> Repo.preload([:messages])
 
   @doc """
   Creates a user.

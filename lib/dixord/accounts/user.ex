@@ -6,6 +6,7 @@ defmodule Dixord.Accounts.User do
     field :claimed, :boolean, default: false
     field :profile_picture_url, :string
     field :username, :string
+    has_many :messages, Dixord.Messaging.Message
 
     timestamps()
   end

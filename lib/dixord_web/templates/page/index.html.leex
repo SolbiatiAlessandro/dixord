@@ -4,18 +4,22 @@
         <%= for message <- @messages do %>
             <li class="mt-2 d-flex align-items-start livechat-row">
                 <div class="mr-3">
-                  <img src="<%= message.profile_picture_url %>">
+                  <%= link to: Routes.user_path(@conn, :show, message.user), class: "text-light" do %>
+                    <img src="<%= message.user.profile_picture_url %>"/>
+                  <% end %>
                 </div>
                 <div>
-                    <div class="d-flex aligns-items-end">
-                        <h5 class="mr-3 mb-1"><%= message.author_name %></h5>
+                  <div class="d-flex aligns-items-end">
+                      <h5 class="mr-3 mb-1">
+                        <%= link message.user.username, to: Routes.user_path(@conn, :show, message.user), class: "text-light" %>
+                      </h5>
                         <p class="font-weight-light text-secondary mb-1">
                             <%= message.inserted_at %>
                         </p>
                     </div>
                     <div class="body">
                         <p>
-                            <%= message.message %>
+                            <%= message.content %>
                         </p>
                     </div>
                 </div>
@@ -34,9 +38,7 @@
       </div>
       <div>
         <%= form_for @message, "#", [phx_change: :typing, phx_submit: :message], fn _f -> %>
-          <%= text_input :message, :message, value: @message.changes[:message], phx_blur: "stop_typing", placeholder: "Message this chat", class: 'form-control' %>
-          <%= hidden_input :message, :author_name, value: @current_user.username %>
-          <%= hidden_input :message, :profile_picture_url, value: @current_user.profile_picture_url %>
+          <%= text_input :message, :content, value: @message.changes[:content], phx_blur: "stop_typing", placeholder: "Message this chat", class: 'form-control' %>
           <%= submit "send", class: 'd-none' %>
         <% end %>
       </div>

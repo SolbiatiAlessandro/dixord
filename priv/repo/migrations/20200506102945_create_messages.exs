@@ -3,11 +3,12 @@ defmodule Dixord.Repo.Migrations.CreateMessages do
 
   def change do
     create table(:messages) do
-      add :name, :string
-      add :message, :string
+      add :content, :string
+      add :user_id, references(:users)
 
       timestamps()
     end
 
+    create unique_index(:messages, [:id])
   end
 end

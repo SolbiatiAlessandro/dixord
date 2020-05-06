@@ -34,9 +34,7 @@ defmodule DixordWeb.ChatLiveViewTest do
      view, 
       :message, 
       %{"message" => %{
-        message: message_content,
-        author_name: "test_user",
-        profile_picture_url: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fcommons.wikimedia.org%2Fwiki%2FFile%3AUser_font_awesome.svg&psig=AOvVaw2VtYiITLYlpIobsaw-gyxO&ust=1588794095006000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCNCzlbC9nekCFQAAAAAdAAAAABAH"
+        content: message_content,
         }
       }
     ) =~ message_content

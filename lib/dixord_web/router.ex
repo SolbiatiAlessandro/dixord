@@ -17,6 +17,7 @@ defmodule DixordWeb.Router do
     pipe_through :browser
 
     resources "/users", UserController
+    resources "/messages", MessageController
     resources "/", PageController
   end
 

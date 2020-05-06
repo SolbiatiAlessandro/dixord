@@ -1,11 +1,12 @@
 <h1>Listing Users</h1>
 
-<table>
+<table class="table text-light">
   <thead>
     <tr>
       <th>Username</th>
       <th>Claimed</th>
       <th>Profile picture url</th>
+      <th>Messages sent</th>
 
       <th></th>
     </tr>
@@ -16,6 +17,7 @@
       <td><%= user.username %></td>
       <td><%= user.claimed %></td>
       <td><%= user.profile_picture_url %></td>
+      <td><%= length(user.messages) %></td>
 
       <td>
         <span><%= link "Show", to: Routes.user_path(@conn, :show, user) %></span>

@@ -5,19 +5,27 @@
     </div>
   <% end %>
 
-  <%= label f, :username %>
-  <%= text_input f, :username %>
-  <%= error_tag f, :username %>
-
-  <%= label f, :claimed %>
-  <%= checkbox f, :claimed %>
-  <%= error_tag f, :claimed %>
-
-  <%= label f, :profile_picture_url %>
-  <%= text_input f, :profile_picture_url %>
-  <%= error_tag f, :profile_picture_url %>
-
-  <div>
-    <%= submit "Save" %>
+<div class="row mt-4" style="background-color:rgba(32,34,37,0.6);border-color:#202225;padding:40px;    border-width: 1px;
+    border-style: solid;
+    border-radius: 5px;">
+  <div class="col-2">
+    <img style="border-radius:50%;width:100%" src="<%= @user.profile_picture_url %>"/>
   </div>
+  <div class="col-6">
+    <h4>Username</h4>
+    <%= text_input f, :username %>
+    <%= error_tag f, :username %>
+    <h4 class="mt-4">Profile Picture URL</h4>
+    <%= text_input f, :profile_picture_url %>
+    <%= error_tag f, :profile_picture_url %>
+  </div>
+  <div class="col-4 text-right">
+    <div class="m-3">
+      <%= submit "Save", class: "btn btn-primary w-50" %>
+    </div>
+    <div class="m-3">
+      <%= link "Back", to: Routes.page_path(@conn, :index), class: "btn btn-primary w-50" %>
+    </div>
+  </div>
+</div>
 <% end %>
