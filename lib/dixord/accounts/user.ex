@@ -18,4 +18,14 @@ defmodule Dixord.Accounts.User do
     |> validate_required([:username, :claimed, :profile_picture_url])
     |> unique_constraint(:username)
   end
+
+  @doc false
+  def populate(data) do
+    %Dixord.Accounts.User{
+      id: data.id,
+      username: data.username,
+      profile_picture_url: data.profile_picture_url,
+    }
+  end
+
 end

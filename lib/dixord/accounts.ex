@@ -37,6 +37,7 @@ defmodule Dixord.Accounts do
 
   """
   def get_user!(id), do: Repo.get!(User, id) |> Repo.preload([:messages])
+  def get_user_without_preload!(id), do: Repo.get!(User, id)
 
   @doc """
   Creates a user.
@@ -118,5 +119,24 @@ defmodule Dixord.Accounts do
   """
   def change_user(%User{} = user) do
     User.changeset(user, %{})
+  end
+
+
+  @doc """
+  Return a user struct populated with user data
+
+  ## Examples
+
+      iex> populate_user_struct(%{username: 'ads', ... })
+      %User{username:'ads', ...}
+
+  WARNING: if the data for input are wrong the function
+  will just brake
+
+  Using this cause at times we have maps (e.g. Presence map)
+  and we need to make sure we can cast them back to user
+  """
+  def populate_user_struct(data) do
+    User.populate(data)
   end
 end

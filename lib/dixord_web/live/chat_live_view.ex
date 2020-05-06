@@ -12,6 +12,44 @@ defmodule Dixord.ChatLiveView do
   require Dixord.Messaging
   alias DixordWeb.Endpoint
 
+  @spec _process_presence() :: {
+    list(%Dixord.Accounts.User{}), 
+    list(map())
+    }
+  @doc"""
+  Utility to process DixordWeb.Presence updates
+  for users connected to the LiveView
+
+  returns `{users, users_presence}` where
+
+  users_presence:
+    presence data, :metas is a map with fields
+    like phx_ref, username, and typing. 
+
+  users:
+    users data (this is a %User{} struct)
+    that can be used when we need the guarantee 
+    this is a real User
+
+  """
+  def _process_presence() do
+    users_presence = DixordWeb.Presence.list("lobby") 
+            |> Enum.map(fn {_current_user, data} ->
+              data[:metas]
+              |> List.first()
+            end)
+
+    users = Enum.map( 
+      users_presence,
+      fn user_data -> 
+        Dixord.Accounts.populate_user_struct(user_data)
+      end
+    )
+
+    {users, users_presence}
+  end
+
+
   def render(assigns) do
     DixordWeb.PageView.render("index.html", assigns)
   end
@@ -21,12 +59,12 @@ defmodule Dixord.ChatLiveView do
   end
 
   def handle_info(%{event: "presence_diff", payload: _payload}, socket) do
-    users = DixordWeb.Presence.list("lobby") 
-            |> Enum.map(fn {_current_user, data} ->
-              data[:metas]
-              |> List.first()
-            end)
-    {:noreply, assign(socket, users: users)}
+    {users, users_presence} = Dixord.ChatLiveView._process_presence()
+    {:noreply, assign(
+      socket, 
+      users: users, 
+      users_presence: users_presence
+    )}
   end
 
   @doc"""
@@ -82,17 +120,15 @@ defmodule Dixord.ChatLiveView do
       }
    )
     messages = Dixord.Messaging.list_messages()
-    users = DixordWeb.Presence.list("lobby") 
-            |> Enum.map(fn {_current_user, data} ->
-              data[:metas]
-              |> List.first()
-            end)
+    {users, users_presence} = Dixord.ChatLiveView._process_presence()
+
     {:ok, assign(
       socket, 
       messages: messages, 
       message: Dixord.Messaging.change_message(),
       current_user: current_user,
       users: users,
+      users_presence: users_presence,
       conn: Endpoint
     )}
   end
