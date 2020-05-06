@@ -1,1 +1,1 @@
-web: MIX_ENV=prod mix ecto.reset && mix docs -o priv/static/ && mix phx.server
+web: MIX_ENV=prod mix ecto.reset -f && mix docs -o priv/static/ && mix phx.server
