@@ -9,7 +9,9 @@
     border-style: solid;
     border-radius: 5px;">
   <div class="col-2">
-    <img style="border-radius:50%;width:100%" src="<%= @user.profile_picture_url %>"/>
+    <%= if @user do %>
+      <img style="border-radius:50%;width:100%" src="<%= @user.profile_picture_url %>"/>
+    <% end %>
   </div>
   <div class="col-6">
     <h4>Username</h4>

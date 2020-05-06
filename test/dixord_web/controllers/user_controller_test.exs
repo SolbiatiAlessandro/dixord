@@ -34,7 +34,7 @@ defmodule DixordWeb.UserControllerTest do
       assert redirected_to(conn) == Routes.user_path(conn, :show, id)
 
       conn = get(conn, Routes.user_path(conn, :show, id))
-      assert html_response(conn, 200) =~ "Show User"
+      assert html_response(conn, 200) =~ "Account Information"
     end
 
     test "renders errors when data is invalid", %{conn: conn} do

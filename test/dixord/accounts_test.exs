@@ -21,12 +21,15 @@ defmodule Dixord.AccountsTest do
 
     test "list_users/0 returns all users" do
       user = user_fixture()
-      assert Accounts.list_users() == [user]
+      users = Accounts.list_users() 
+      Enum.each(users, fn m -> assert m.id == user.id end)
+      Enum.each(users, fn m -> assert m.username == user.username end)
     end
 
     test "get_user!/1 returns the user with given id" do
       user = user_fixture()
-      assert Accounts.get_user!(user.id) == user
+      assert Accounts.get_user!(user.id).id == user.id
+      assert Accounts.get_user!(user.id).username == user.username
     end
 
     test "create_user/1 with valid data creates a user" do
@@ -62,7 +65,7 @@ defmodule Dixord.AccountsTest do
     test "update_user/2 with invalid data returns error changeset" do
       user = user_fixture()
       assert {:error, %Ecto.Changeset{}} = Accounts.update_user(user, @invalid_attrs)
-      assert user == Accounts.get_user!(user.id)
+      assert user.id == Accounts.get_user!(user.id).id
     end
 
     test "delete_user/1 deletes the user" do
