@@ -80,6 +80,23 @@ body{
     color: #8e9297;
 }
 
+.dixord-form{
+background-color:rgb(42, 45, 48);border-color:#202225;padding:40px;    border-width: 1px;
+    border-style: solid;border-radius: 5px
+}
 
+.dixord-form input{
+	width: 100%;
+	border: 1px solid black;
+	background-color: #202225;
+	color: white !important;
+	padding:10px;
+}
 
-	
+.dixord-form h6 {
+	color:blue;
+	font-weight: bold;
+	margin-top: 1.5rem;
+	color: #6c757d;
+	text-transform: uppercase;
+}

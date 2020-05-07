@@ -4,6 +4,7 @@ defmodule Dixord.Accounts do
   """
   import Ecto.Query, warn: false
   alias Dixord.Repo
+  require UUID
 
   alias Dixord.Accounts.User
 
@@ -63,14 +64,18 @@ defmodule Dixord.Accounts do
   We put them in the database so that the messaging
   logic can just pass around user ids and doesn't need
   to know whether these are users or guests.
+
+  Guests user have a 'fake' email of the form uuid@habiter.app
+  That's because the database is indexed on user email (because
+  we are using pow library for authentication).
   """
   def create_guest_user() do
+    <<short_id :: binary-size(4)>> <> full_id  = UUID.uuid4()
     {:ok, user} =  %User{
       claimed: false,
-      username: "Guest#{:rand.uniform(1000)}",
-      profile_picture_url: Application.fetch_env!(:dixord, :guests_profile_images) 
-      |> Map.values() 
-      |> Enum.random()
+      username: "Guest#{short_id}",
+      email: "#{short_id <> full_id}@habiter.app",
+      profile_picture_url: User.default_profile_picture()
     } |> Repo.insert()
   end
 
@@ -88,7 +93,7 @@ defmodule Dixord.Accounts do
   """
   def update_user(%User{} = user, attrs) do
     user
-    |> User.changeset(attrs)
+    |> User.changeset_without_pow(attrs)
     |> Repo.update()
   end
 

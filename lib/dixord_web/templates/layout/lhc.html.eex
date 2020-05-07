@@ -12,3 +12,15 @@
         </a>
   </li>
 </ul>
+<div>
+  <% if Pow.Plug.current_user(@conn) do %>
+  <%= render DixordWeb.PageView, "message_body.html",
+        assigns
+          |> Map.put(:message_content, "Your Account") 
+          |> Map.put(:message_inserted_at, "") 
+          |> Map.put(:user, @current_user)
+        %>
+      <% else %>
+        <p>Your are not signed in!</p>
+  <% end %>
+</div>

@@ -6,9 +6,30 @@ defmodule Dixord.AccountsTest do
   describe "users" do
     alias Dixord.Accounts.User
 
-    @valid_attrs %{claimed: true, profile_picture_url: "some profile_picture_url", username: "some username"}
-    @update_attrs %{claimed: false, profile_picture_url: "some updated profile_picture_url", username: "some updated username"}
-    @invalid_attrs %{claimed: nil, profile_picture_url: nil, username: nil}
+  @valid_attrs %{
+    claimed: true, 
+    profile_picture_url: "some profile_picture_url", 
+    username: "some username", 
+    email: "test1234@example.com", 
+    password: "12345678",
+    password_confirmation: "12345678"
+  }
+  @update_attrs %{
+    claimed: false, 
+    profile_picture_url: "some updated profile_picture_url", 
+    username: "some updated username", 
+    email: "updatedemail@email.com", 
+    current_password: "12345678",
+    updated_password: "updatedpassword2"
+  }
+  @invalid_attrs %{
+    claimed: nil, 
+    profile_picture_url: nil, 
+    username: nil, 
+    email: nil, 
+    password: nil,
+    password_confirmation: nil
+  }
 
     def user_fixture(attrs \\ %{}) do
       {:ok, user} =

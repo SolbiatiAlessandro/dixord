@@ -56,9 +56,11 @@ defmodule Dixord.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:excoveralls, "~> 0.7.0", only: [:test, :dev]},
-	  {:ex_doc, "~> 0.21"},
-	  {:phoenix_live_view, github: "phoenixframework/phoenix_live_view"},
-	  {:floki, ">= 0.0.0", only: :test}
+      {:ex_doc, "~> 0.21"},
+      {:phoenix_live_view, github: "phoenixframework/phoenix_live_view"},
+      {:floki, ">= 0.0.0", only: :test},
+      {:pow, "~> 1.0.20"},
+	  {:uuid, "~> 1.1"}
     ]
   end
 

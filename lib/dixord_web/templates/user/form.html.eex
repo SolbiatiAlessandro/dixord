@@ -5,21 +5,21 @@
     </div>
   <% end %>
 
-<div class="row mt-4" style="background-color:rgba(32,34,37,0.6);border-color:#202225;padding:40px;    border-width: 1px;
-    border-style: solid;
-    border-radius: 5px;">
+<div class="row mt-4 dixord-form">
   <div class="col-2">
     <%= if @user do %>
       <img style="border-radius:50%;width:100%" src="<%= @user.profile_picture_url %>"/>
     <% end %>
   </div>
   <div class="col-6">
-    <h4>Username</h4>
+    <h6 class="text-uppercase font-weight-bold mt-4">Username</h4>
     <%= text_input f, :username %>
     <%= error_tag f, :username %>
-    <h4 class="mt-4">Profile Picture URL</h4>
+    <h6 class="text-uppercase font-weight-bold mt-4">Profile Picture URL</h4>
     <%= text_input f, :profile_picture_url %>
     <%= error_tag f, :profile_picture_url %>
+    <h6 class="text-uppercase font-weight-bold mt-4">Messages Sent</h6>
+    <p><%= length(@user.messages) %></p>
   </div>
   <div class="col-4 text-right">
     <div class="m-3">

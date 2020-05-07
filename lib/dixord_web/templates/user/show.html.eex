@@ -1,17 +1,15 @@
 <div class="p-5">
 <h3>Account Information</h3>
-<div class="row mt-4" style="background-color:rgba(32,34,37,0.6);border-color:#202225;padding:40px;    border-width: 1px;
-    border-style: solid;
-    border-radius: 5px;">
+<div class="row mt-4 dixord-form">
   <div class="col-2">
     <img style="border-radius:50%;width:100%" src="<%= @user.profile_picture_url %>"/>
   </div>
   <div class="col-6">
-    <h4>Username</h4>
+    <h6 class="text-uppercase font-weight-bold mt-4">Username</h6>
     <p><%= @user.username %></p>
-    <h4>Activated Account</h4>
+    <h6 class="text-uppercase font-weight-bold mt-4">Activated Account</h6>
     <p><%= @user.claimed %></p>
-    <h4>Messages Sent</h4>
+    <h6 class="text-uppercase font-weight-bold mt-4">Messages Sent</h6>
     <p><%= length(@user.messages) %></p>
   </div>
   <div class="col-4 text-right">

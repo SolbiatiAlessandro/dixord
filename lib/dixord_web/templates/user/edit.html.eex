@@ -1,5 +1,5 @@
 <div class="p-5">
-<h3>Edit User</h3>
+<h3>Account Information</h3>
 <%= render "form.html", Map.put(assigns, :action, Routes.user_path(@conn, :update, @user)) %>
 </div>
 

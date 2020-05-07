@@ -43,5 +43,7 @@ defmodule DixordWeb.Endpoint do
     key: "_dixord_key",
     signing_salt: "m+1/GiZF"
 
+  plug Pow.Plug.Session, otp_app: :dixord
+
   plug DixordWeb.Router
 end

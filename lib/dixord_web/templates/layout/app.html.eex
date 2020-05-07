@@ -18,7 +18,7 @@
     <main role="main" class="row">
 	  <div class="col-md-2 d-none d-md-block sidebar">
 		<div class="sidebar-sticky">
-		  <%= render "lhc.html" %>
+		  <%= render "lhc.html", assigns %>
 		</div>
 	  </div>
 	  <div class="col-md-9 ml-sm-auto col-lg-10 px-4">
