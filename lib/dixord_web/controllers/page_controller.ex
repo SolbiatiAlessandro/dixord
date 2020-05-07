@@ -10,7 +10,8 @@ defmodule DixordWeb.PageController do
   https://elixircasts.io/partial-templates-with-phoenix
   """
   use DixordWeb, :controller
-  plug :authenticate_guest_user
+  require Pow.Plug
+  plug :authenticate_user
 
   def index(conn, _params) do
     Phoenix.LiveView.Controller.live_render(
@@ -20,13 +21,15 @@ defmodule DixordWeb.PageController do
     )
   end
 
-  def authenticate_guest_user(conn, _params) do
-    {:ok, guest_user} = Dixord.Accounts.create_guest_user()
-    random_id = :rand.uniform(1000)
+  def authenticate_user(conn, _params) do
+    current_user = if Pow.Plug.current_user(conn),
+      do: Pow.Plug.current_user(conn).id 
+        |> Dixord.Accounts.get_user!,
+      else: Dixord.Accounts.create_guest_user()
     assign(
       conn, 
       :current_user, 
-      guest_user
+      current_user
     )
   end
 end

@@ -8,7 +8,7 @@ defmodule Dixord.Repo.Migrations.CreateUsers do
       add :username, :string
       add :password_hash, :string
 
-      add :claimed, :boolean, default: false, null: false
+      add :claimed, :boolean, default: true, null: false
       add :profile_picture_url, :string, default: "https://discordapp.com/assets/6debd47ed13483642cf09e832ed0bc1b.png"
 
       timestamps()

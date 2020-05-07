@@ -5,7 +5,7 @@ defmodule Dixord.Accounts.User do
   alias Dixord.Accounts.User
 
   schema "users" do
-    field :claimed, :boolean, default: false
+    field :claimed, :boolean, default: true
     field :profile_picture_url, :string, default: "https://discordapp.com/assets/6debd47ed13483642cf09e832ed0bc1b.png"
     field :username, :string
     has_many :messages, Dixord.Messaging.Message

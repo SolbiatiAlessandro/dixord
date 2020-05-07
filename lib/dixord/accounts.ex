@@ -77,6 +77,7 @@ defmodule Dixord.Accounts do
       email: "#{short_id <> full_id}@habiter.app",
       profile_picture_url: User.default_profile_picture()
     } |> Repo.insert()
+    user
   end
 
   @doc """

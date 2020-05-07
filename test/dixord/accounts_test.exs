@@ -61,7 +61,8 @@ defmodule Dixord.AccountsTest do
     end
 
     test "create_guest_user/0 creates a guest user" do
-      assert {:ok, %User{} = user} = Accounts.create_guest_user()
+      user = Accounts.create_guest_user()
+      assert user
       assert user.claimed == false
       assert Enum.member?(
         Application.fetch_env!(:dixord, :guests_profile_images) 
