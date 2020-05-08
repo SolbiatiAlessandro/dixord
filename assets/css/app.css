@@ -71,7 +71,8 @@ body{
    }
 
 .lhc-channel-name{
-    font-size: 22px;
+    font-size: 18px;
+    font-weight: 400;
     color: #8e9297;
 }
 

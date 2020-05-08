@@ -12,8 +12,7 @@ defmodule DixordWeb do
   controller, etc, so keep them short and clean, focused
   on imports, uses and aliases.
 
-  Do NOT define functions inside the quoted expressions
-  below. Instead, define any helper function in modules
+  Do NOT define functions inside the quoted expressions below. Instead, define any helper function in modules
   and import those modules here.
   """
 
@@ -43,6 +42,8 @@ defmodule DixordWeb do
       import DixordWeb.Gettext
       alias DixordWeb.Router.Helpers, as: Routes
       import Phoenix.LiveView.Helpers
+
+      import Surface
     end
   end
 

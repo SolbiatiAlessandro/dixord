@@ -11,6 +11,7 @@ defmodule Dixord.ChatLiveView do
   use Phoenix.LiveView
   require Dixord.Messaging
   alias DixordWeb.Endpoint
+  require DixordWeb.Components.LhcChat
 
   @spec _process_presence() :: {
           list(%Dixord.Accounts.User{}),

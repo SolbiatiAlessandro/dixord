@@ -61,10 +61,11 @@ defmodule Dixord.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:excoveralls, "~> 0.7.0", only: [:test, :dev]},
       {:ex_doc, "~> 0.21"},
-      {:phoenix_live_view, github: "phoenixframework/phoenix_live_view"},
+	  {:phoenix_live_view, "~> 0.11.1"},
       {:floki, ">= 0.0.0", only: :test},
       {:pow, "~> 1.0.20"},
-      {:uuid, "~> 1.1"}
+      {:uuid, "~> 1.1"},
+	  {:surface, "~> 0.1.0-alpha.1"}
     ]
   end
 
