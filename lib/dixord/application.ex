@@ -13,7 +13,7 @@ defmodule Dixord.Application do
       # Start the endpoint when the application starts
       DixordWeb.Endpoint,
       # Starts a worker by calling: Dixord.Worker.start_link(arg)
-          # {Dixord.Worker, arg},
+      # {Dixord.Worker, arg},
       DixordWeb.Presence
     ]
 

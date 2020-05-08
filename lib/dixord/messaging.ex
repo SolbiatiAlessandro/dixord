@@ -24,7 +24,7 @@ defmodule Dixord.Messaging do
   """
   def list_messages do
     Repo.all(Message)
-    |> Repo.preload([:user]) 
+    |> Repo.preload([:user])
   end
 
   @doc """
@@ -56,9 +56,10 @@ defmodule Dixord.Messaging do
 
   """
   def create_message(attrs \\ %{}) do
-    message = %Message{}
-    |> Message.changeset(attrs)
-    |> Repo.insert()
+    message =
+      %Message{}
+      |> Message.changeset(attrs)
+      |> Repo.insert()
   end
 
   @doc """

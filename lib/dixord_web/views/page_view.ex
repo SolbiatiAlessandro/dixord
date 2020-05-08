@@ -1,3 +1,3 @@
 defmodule DixordWeb.PageView do
-     use DixordWeb, :view 
+  use DixordWeb, :view
 end

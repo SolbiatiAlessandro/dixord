@@ -4,27 +4,27 @@ defmodule DixordWeb.UserControllerTest do
   alias Dixord.Accounts
 
   @create_attrs %{
-    claimed: true, 
-    profile_picture_url: "some profile_picture_url", 
-    username: "some username", 
-    email: "test1234@example.com", 
+    claimed: true,
+    profile_picture_url: "some profile_picture_url",
+    username: "some username",
+    email: "test1234@example.com",
     password: "12345678",
     password_confirmation: "12345678"
   }
   @update_attrs %{
-    claimed: false, 
+    claimed: false,
     profile_picture_url: "some 
-    updated profile_picture_url", 
-    username: "some updated username", 
-    email: "updatedemail@email.com", 
+    updated profile_picture_url",
+    username: "some updated username",
+    email: "updatedemail@email.com",
     current_password: "12345678",
     updated_password: "updatedpassword2"
   }
   @invalid_attrs %{
-    claimed: nil, 
-    profile_picture_url: nil, 
-    username: nil, 
-    email: nil, 
+    claimed: nil,
+    profile_picture_url: nil,
+    username: nil,
+    email: nil,
     password: nil,
     password_confirmation: nil
   }
@@ -97,9 +97,10 @@ defmodule DixordWeb.UserControllerTest do
     test "deletes chosen user", %{conn: conn, user: user} do
       conn = delete(conn, Routes.user_path(conn, :delete, user))
       assert redirected_to(conn) == Routes.user_path(conn, :index)
-      assert_error_sent 404, fn ->
+
+      assert_error_sent(404, fn ->
         get(conn, Routes.user_path(conn, :show, user))
-      end
+      end)
     end
   end
 

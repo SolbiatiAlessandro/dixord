@@ -33,7 +33,7 @@ defmodule DixordWeb.UserController do
 
   def edit(conn, %{"id" => id}) do
     user = Accounts.get_user!(id)
-    changeset = Accounts.change_user(user) 
+    changeset = Accounts.change_user(user)
     render(conn, "edit.html", user: user, changeset: changeset)
   end
 

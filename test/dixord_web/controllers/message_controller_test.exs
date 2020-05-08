@@ -75,9 +75,10 @@ defmodule DixordWeb.MessageControllerTest do
     test "deletes chosen message", %{conn: conn, message: message} do
       conn = delete(conn, Routes.message_path(conn, :delete, message))
       assert redirected_to(conn) == Routes.message_path(conn, :index)
-      assert_error_sent 404, fn ->
+
+      assert_error_sent(404, fn ->
         get(conn, Routes.message_path(conn, :show, message))
-      end
+      end)
     end
   end
 

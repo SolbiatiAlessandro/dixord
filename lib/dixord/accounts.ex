@@ -8,7 +8,6 @@ defmodule Dixord.Accounts do
 
   alias Dixord.Accounts.User
 
-
   @doc """
   Returns the list of users.
 
@@ -69,14 +68,19 @@ defmodule Dixord.Accounts do
   That's because the database is indexed on user email (because
   we are using pow library for authentication).
   """
+
   def create_guest_user() do
-    <<short_id :: binary-size(4)>> <> full_id  = UUID.uuid4()
-    {:ok, user} =  %User{
-      claimed: false,
-      username: "Guest#{short_id}",
-      email: "#{short_id <> full_id}@habiter.app",
-      profile_picture_url: User.default_profile_picture()
-    } |> Repo.insert()
+    <<short_id::binary-size(4)>> <> full_id = UUID.uuid4()
+
+    {:ok, user} =
+      %User{
+        claimed: false,
+        username: "Guest#{short_id}",
+        email: "#{short_id <> full_id}@habiter.app",
+        profile_picture_url: User.default_profile_picture()
+      }
+      |> Repo.insert()
+
     user
   end
 
@@ -126,7 +130,6 @@ defmodule Dixord.Accounts do
   def change_user(%User{} = user) do
     User.changeset(user, %{})
   end
-
 
   @doc """
   Return a user struct populated with user data

@@ -12,8 +12,12 @@ defmodule Dixord.MixProject do
       aliases: aliases(),
       deps: deps(),
       test_coverage: [tool: ExCoveralls],
-      preferred_cli_env: [coveralls: :test, "coveralls.detail": :test,
-  "coveralls.post": :test, "coveralls.html": :test]
+      preferred_cli_env: [
+        coveralls: :test,
+        "coveralls.detail": :test,
+        "coveralls.post": :test,
+        "coveralls.html": :test
+      ]
     ]
   end
 
@@ -26,11 +30,11 @@ defmodule Dixord.MixProject do
       extra_applications: [:logger, :runtime_tools],
       env: [
         guests_profile_images: %{
-        red: "https://discordapp.com/assets/1cbd08c76f8af6dddce02c5138971129.png",
-        blue: "https://discordapp.com/assets/6debd47ed13483642cf09e832ed0bc1b.png",
-        yellow: "https://discordapp.com/assets/0e291f67c9274a1abdddeb3fd919cbaa.png",
-        green: "https://discordapp.com/assets/dd4dbc0016779df1378e7812eabaa04d.png",
-        grey: "https://discordapp.com/assets/322c936a8c8be1b803cd94861bdfa868.png"
+          red: "https://discordapp.com/assets/1cbd08c76f8af6dddce02c5138971129.png",
+          blue: "https://discordapp.com/assets/6debd47ed13483642cf09e832ed0bc1b.png",
+          yellow: "https://discordapp.com/assets/0e291f67c9274a1abdddeb3fd919cbaa.png",
+          green: "https://discordapp.com/assets/dd4dbc0016779df1378e7812eabaa04d.png",
+          grey: "https://discordapp.com/assets/322c936a8c8be1b803cd94861bdfa868.png"
         }
       ]
     ]
@@ -60,7 +64,7 @@ defmodule Dixord.MixProject do
       {:phoenix_live_view, github: "phoenixframework/phoenix_live_view"},
       {:floki, ">= 0.0.0", only: :test},
       {:pow, "~> 1.0.20"},
-	  {:uuid, "~> 1.1"}
+      {:uuid, "~> 1.1"}
     ]
   end
 

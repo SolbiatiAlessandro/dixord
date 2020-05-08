@@ -1,5 +1,5 @@
 defmodule DixordWeb.ChatLiveViewTest do
-  @moduledoc"""
+  @moduledoc """
   Testing the live view to check the before after migration
   of messages infra every works.
 
@@ -11,7 +11,7 @@ defmodule DixordWeb.ChatLiveViewTest do
   require Phoenix.LiveViewTest
   require Logger
 
-  @doc"""
+  @doc """
   checks that the view mounts correctly
   """
   test "mount", %{conn: conn} do
@@ -24,34 +24,38 @@ defmodule DixordWeb.ChatLiveViewTest do
     assert html =~ "Guest"
   end
 
-  @doc"""
+  @doc """
   sends a message and check that it's rendered
   """
   test "send_message", %{conn: conn} do
     {:ok, view, html} = Phoenix.LiveViewTest.live(conn, "/")
     message_content = "test_message_219120958120481023"
+
     assert Phoenix.LiveViewTest.render_submit(
-     view, 
-      :message, 
-      %{"message" => %{
-        content: message_content,
-        }
-      }
-    ) =~ message_content
+             view,
+             :message,
+             %{
+               "message" => %{
+                 content: message_content
+               }
+             }
+           ) =~ message_content
   end
 
-  @doc"""
+  @doc """
   test typing
-  
+
   for some reason I can't assert ~= "is typing"
   so I will just assert that the code doesn't break
   a refernece is https://github.com/kerryb/quiz_buzz/blob/75a63ba0036cfda78af8facc931851f61921dc4a/test/quiz_buzz_web/live/home_live_test.exs
   """
   test "typing, not_typing" do
     {:ok, view, html} = Phoenix.LiveViewTest.live(conn, "/")
-    assert Phoenix.LiveViewTest.render_change(view, :typing, %{message: ".."}) 
-    refute Phoenix.LiveViewTest.render_blur(
-      view, :stop_typing) =~ "is typing.."
-  end
+    assert Phoenix.LiveViewTest.render_change(view, :typing, %{message: ".."})
 
+    refute Phoenix.LiveViewTest.render_blur(
+             view,
+             :stop_typing
+           ) =~ "is typing.."
+  end
 end

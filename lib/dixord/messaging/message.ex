@@ -3,8 +3,8 @@ defmodule Dixord.Messaging.Message do
   import Ecto.Changeset
 
   schema "messages" do
-    field :content, :string
-    belongs_to :user, Dixord.Accounts.User
+    field(:content, :string)
+    belongs_to(:user, Dixord.Accounts.User)
 
     timestamps()
   end

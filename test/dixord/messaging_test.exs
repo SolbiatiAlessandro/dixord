@@ -12,19 +12,25 @@ defmodule Dixord.MessagingTest do
 
     def message_fixture(attrs \\ %{}) do
       user = Dixord.AccountsTest.user_fixture()
-      {:ok, message} = Messaging.create_message(
-        @valid_attrs,
-        user
-      )
+
+      {:ok, message} =
+        Messaging.create_message(
+          @valid_attrs,
+          user
+        )
+
       message
     end
 
     test "list_messages/0 returns all messages" do
       user = Dixord.AccountsTest.user_fixture()
-      {:ok, message} = Messaging.create_message(
-        @valid_attrs,
-        user
-      )
+
+      {:ok, message} =
+        Messaging.create_message(
+          @valid_attrs,
+          user
+        )
+
       messages = Messaging.list_messages()
       Enum.each(messages, fn m -> assert m.id == message.id end)
       Enum.each(messages, fn m -> assert m.user_id == user.id end)
@@ -38,10 +44,13 @@ defmodule Dixord.MessagingTest do
 
     test "create_message/2 with valid data creates a message" do
       user = Dixord.AccountsTest.user_fixture()
-      assert {:ok, message} = Messaging.create_message(
-        @valid_attrs,
-        user
-      )
+
+      assert {:ok, message} =
+               Messaging.create_message(
+                 @valid_attrs,
+                 user
+               )
+
       assert message.content == "some content"
       assert message.user_id == user.id
     end

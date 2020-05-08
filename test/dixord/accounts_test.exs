@@ -6,30 +6,30 @@ defmodule Dixord.AccountsTest do
   describe "users" do
     alias Dixord.Accounts.User
 
-  @valid_attrs %{
-    claimed: true, 
-    profile_picture_url: "some profile_picture_url", 
-    username: "some username", 
-    email: "test1234@example.com", 
-    password: "12345678",
-    password_confirmation: "12345678"
-  }
-  @update_attrs %{
-    claimed: false, 
-    profile_picture_url: "some updated profile_picture_url", 
-    username: "some updated username", 
-    email: "updatedemail@email.com", 
-    current_password: "12345678",
-    updated_password: "updatedpassword2"
-  }
-  @invalid_attrs %{
-    claimed: nil, 
-    profile_picture_url: nil, 
-    username: nil, 
-    email: nil, 
-    password: nil,
-    password_confirmation: nil
-  }
+    @valid_attrs %{
+      claimed: true,
+      profile_picture_url: "some profile_picture_url",
+      username: "some username",
+      email: "test1234@example.com",
+      password: "12345678",
+      password_confirmation: "12345678"
+    }
+    @update_attrs %{
+      claimed: false,
+      profile_picture_url: "some updated profile_picture_url",
+      username: "some updated username",
+      email: "updatedemail@email.com",
+      current_password: "12345678",
+      updated_password: "updatedpassword2"
+    }
+    @invalid_attrs %{
+      claimed: nil,
+      profile_picture_url: nil,
+      username: nil,
+      email: nil,
+      password: nil,
+      password_confirmation: nil
+    }
 
     def user_fixture(attrs \\ %{}) do
       {:ok, user} =
@@ -42,7 +42,7 @@ defmodule Dixord.AccountsTest do
 
     test "list_users/0 returns all users" do
       user = user_fixture()
-      users = Accounts.list_users() 
+      users = Accounts.list_users()
       Enum.each(users, fn m -> assert m.id == user.id end)
       Enum.each(users, fn m -> assert m.username == user.username end)
     end
@@ -64,11 +64,13 @@ defmodule Dixord.AccountsTest do
       user = Accounts.create_guest_user()
       assert user
       assert user.claimed == false
+
       assert Enum.member?(
-        Application.fetch_env!(:dixord, :guests_profile_images) 
-        |> Map.values(),
-        user.profile_picture_url
-      )
+               Application.fetch_env!(:dixord, :guests_profile_images)
+               |> Map.values(),
+               user.profile_picture_url
+             )
+
       assert user.username =~ "Guest"
     end
 

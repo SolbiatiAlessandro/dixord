@@ -5,10 +5,14 @@ defmodule Dixord.Accounts.User do
   alias Dixord.Accounts.User
 
   schema "users" do
-    field :claimed, :boolean, default: true
-    field :profile_picture_url, :string, default: "https://discordapp.com/assets/6debd47ed13483642cf09e832ed0bc1b.png"
-    field :username, :string
-    has_many :messages, Dixord.Messaging.Message
+    field(:claimed, :boolean, default: true)
+
+    field(:profile_picture_url, :string,
+      default: "https://discordapp.com/assets/6debd47ed13483642cf09e832ed0bc1b.png"
+    )
+
+    field(:username, :string)
+    has_many(:messages, Dixord.Messaging.Message)
 
     pow_user_fields()
     timestamps()
@@ -16,9 +20,9 @@ defmodule Dixord.Accounts.User do
 
   @doc false
   def default_profile_picture() do
-    Application.fetch_env!(:dixord, :guests_profile_images) 
-      |> Map.values() 
-      |> Enum.random()
+    Application.fetch_env!(:dixord, :guests_profile_images)
+    |> Map.values()
+    |> Enum.random()
   end
 
   @doc false
@@ -43,7 +47,7 @@ defmodule Dixord.Accounts.User do
     %Dixord.Accounts.User{
       id: data.id,
       username: data.username,
-      profile_picture_url: data.profile_picture_url,
+      profile_picture_url: data.profile_picture_url
     }
   end
 end
