@@ -1,12 +1,23 @@
 <div class="row w-100 ml-0" >
 
   <div class="col-md-1 server-lhc">
-    <div class="server-box">
-      home
-    </div>
-    <div class="server-box">
-      dev
-    </div>
+        <%= DixordWeb.Components.LhcServer.render(
+            assigns |> Map.put(:name, "home")|> Map.put(:active, false)
+) %>
+        <div class="server-lhc-separator mt-3">
+        </div>
+        <%= DixordWeb.Components.LhcServer.render(
+            assigns |> Map.put(:name, "Guests Server")|> Map.put(:active, true)
+        ) %>
+        <%= DixordWeb.Components.LhcServer.render(
+            assigns |> Map.put(:name, "Elixir School")|> Map.put(:active, false)
+        ) %>
+        <%= DixordWeb.Components.LhcServer.render(
+            assigns |> Map.put(:name, "Harvard CS50")|> Map.put(:active, false)
+        ) %>
+        <%= DixordWeb.Components.LhcServer.render(
+            assigns |> Map.put(:name, "Andrew Ng's Machine Learning")|> Map.put(:active, false)
+        ) %>
   </div>
   <div class="col-md-2 d-none d-md-block sidebar pr-0 pl-0" >
     <div class="sidebar-sticky">

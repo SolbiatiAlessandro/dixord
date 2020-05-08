@@ -12,6 +12,13 @@
 	background-color: #202225;
 }
 
+.server-lhc-separator{
+	height: 2px;
+	margin: auto;
+	background-color: #303136;
+	width: 75%;
+}
+
 .server-box{
     background-color: #303136;
     padding: 20px;
