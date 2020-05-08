@@ -1,4 +1,4 @@
-<div class="p-5">
+<div class="p-5 w-75 m-auto" >
 <h3>Account Information</h3>
 <div class="row mt-4 dixord-form">
   <div class="col-2">
@@ -7,17 +7,23 @@
   <div class="col-6">
     <h6 class="text-uppercase font-weight-bold mt-4">Username</h6>
     <p><%= @user.username %></p>
-    <h6 class="text-uppercase font-weight-bold mt-4">Activated Account</h6>
-    <p><%= @user.claimed %></p>
     <h6 class="text-uppercase font-weight-bold mt-4">Messages Sent</h6>
     <p><%= length(@user.messages) %></p>
   </div>
   <div class="col-4 text-right">
-    <div class="m-3">
-        <%= link "Edit", to: Routes.user_path(@conn, :edit, @user), class: "text-light btn btn-primary w-50" %>
-    </div>
+
+    <%= if Pow.Plug.current_user(@conn) != nil and @user.id == Pow.Plug.current_user(@conn).id do %>
+      <div class="m-3">
+          <%= link "Edit", to: Routes.user_path(@conn, :edit, @user), class: "text-light btn btn-primary w-50" %>
+      </div>
+    <% end %>
     <div class="m-3">
         <%= link "Back", to: Routes.page_path(@conn, :index), class: "text-light btn btn-primary w-50" %>
     </div>
+    <%= if Pow.Plug.current_user(@conn) != nil and @user.id == Pow.Plug.current_user(@conn).id do %>
+      <div class="m-3">
+          <%= link "Sign Out", to: Routes.pow_session_path(@conn, :delete), method: :delete, class: "btn btn-secondary w-50" %>
+      </div>
+    <% end %>
   </div>
 </div>

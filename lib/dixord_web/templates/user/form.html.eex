@@ -18,8 +18,6 @@
     <h6 class="text-uppercase font-weight-bold mt-4">Profile Picture URL</h4>
     <%= text_input f, :profile_picture_url %>
     <%= error_tag f, :profile_picture_url %>
-    <h6 class="text-uppercase font-weight-bold mt-4">Messages Sent</h6>
-    <p><%= length(@user.messages) %></p>
   </div>
   <div class="col-4 text-right">
     <div class="m-3">

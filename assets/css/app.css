@@ -44,7 +44,7 @@ body{
 
 .livechat-row img {
   border-radius: 50%;
-  height: 50px;
+  width: 50px;
 }
 
 .composer form{
@@ -100,4 +100,8 @@ background-color:rgb(42, 45, 48);border-color:#202225;padding:40px;    border-wi
 	position: absolute;
 	bottom: 0;
 	background-color: #292b2f;
+}
+
+.auth-screen{
+	height:100vh;position:fixed;top:0;left:0;width:100%;background-image:url("/images/register_background.jpg");z-index:100;background-size:cover;
 }

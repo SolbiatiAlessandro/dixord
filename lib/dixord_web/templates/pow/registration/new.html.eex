@@ -1,5 +1,4 @@
-<div class="row d-flex align-items-center justify-content-center" 
-     style='height:100vh;position:fixed;top:0;left:0;width:100%;background-image:url("/images/register_background.jpg");z-index:100;background-size:cover;'>
+<div class="row d-flex align-items-center justify-content-center auth-screen" >
   <div class="col-3">
 <%= form_for @changeset, @action, [as: :user], fn f -> %>
   <%= if @changeset.action do %>
