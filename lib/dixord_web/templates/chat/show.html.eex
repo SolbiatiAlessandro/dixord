@@ -1,0 +1,23 @@
+<h1>Show Chat</h1>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @chat.name %>
+  </li>
+
+  <li>
+    <strong>Category:</strong>
+    <%= @chat.category %>
+  </li>
+
+  <li>
+    <strong>Public:</strong>
+    <%= @chat.public %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.chat_path(@conn, :edit, @chat) %></span>
+<span><%= link "Back", to: Routes.chat_path(@conn, :index) %></span>

@@ -1,0 +1,6 @@
+<div class="row d-flex align-items-center justify-content-center auth-screen" >
+  <div class="col-3">
+    <%= render "form.html", assigns |> Map.put( :action, Routes.chat_path(@conn, :update, @chat)) |> Map.put(:title, "Edit Chat") |> Map.put(:description, true) %>
+  </div>
+</div>
+

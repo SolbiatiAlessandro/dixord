@@ -10,12 +10,15 @@ defmodule DixordWeb.ChatLiveViewTest do
   use DixordWeb.ConnCase
   require Phoenix.LiveViewTest
   require Logger
+  require DixordWeb.PageController
 
   @doc """
   checks that the view mounts correctly
   """
   test "mount", %{conn: conn} do
-    {:ok, view, html} = Phoenix.LiveViewTest.live(conn, "/")
+    {:ok, view, html} =
+      Phoenix.LiveViewTest.live(conn, DixordWeb.PageController.get_landing_chat_path(conn))
+
     # assert that there is the string Message
     # from the composer e.g. "Message this chat.."
     assert html =~ "Message"
@@ -28,7 +31,9 @@ defmodule DixordWeb.ChatLiveViewTest do
   sends a message and check that it's rendered
   """
   test "send_message", %{conn: conn} do
-    {:ok, view, html} = Phoenix.LiveViewTest.live(conn, "/")
+    {:ok, view, html} =
+      Phoenix.LiveViewTest.live(conn, DixordWeb.PageController.get_landing_chat_path(conn))
+
     message_content = "test_message_219120958120481023"
 
     assert Phoenix.LiveViewTest.render_submit(
@@ -50,7 +55,9 @@ defmodule DixordWeb.ChatLiveViewTest do
   a refernece is https://github.com/kerryb/quiz_buzz/blob/75a63ba0036cfda78af8facc931851f61921dc4a/test/quiz_buzz_web/live/home_live_test.exs
   """
   test "typing, not_typing" do
-    {:ok, view, html} = Phoenix.LiveViewTest.live(conn, "/")
+    {:ok, view, html} =
+      Phoenix.LiveViewTest.live(conn, DixordWeb.PageController.get_landing_chat_path(conn))
+
     assert Phoenix.LiveViewTest.render_change(view, :typing, %{message: ".."})
 
     refute Phoenix.LiveViewTest.render_blur(

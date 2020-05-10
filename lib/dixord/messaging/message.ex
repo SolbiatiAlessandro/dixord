@@ -5,6 +5,7 @@ defmodule Dixord.Messaging.Message do
   schema "messages" do
     field(:content, :string)
     belongs_to(:user, Dixord.Accounts.User)
+    belongs_to(:chat, Dixord.Messaging.Chat)
 
     timestamps()
   end

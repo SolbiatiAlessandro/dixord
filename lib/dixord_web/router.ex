@@ -1,6 +1,7 @@
 defmodule DixordWeb.Router do
   use DixordWeb, :router
   use Pow.Phoenix.Router
+  import DixordWeb.Auth
 
   pipeline :browser do
     plug(:accepts, ["html"])
@@ -8,6 +9,10 @@ defmodule DixordWeb.Router do
     plug(:fetch_flash)
     plug(:protect_from_forgery)
     plug(:put_secure_browser_headers)
+  end
+
+  pipeline :auth do
+    plug(:authenticate_user)
   end
 
   pipeline :api do
@@ -22,9 +27,11 @@ defmodule DixordWeb.Router do
 
   scope "/", DixordWeb do
     pipe_through(:browser)
+    pipe_through(:auth)
 
     resources("/users", UserController)
     resources("/messages", MessageController)
+    resources("/chats", ChatController)
     resources("/", PageController)
   end
 

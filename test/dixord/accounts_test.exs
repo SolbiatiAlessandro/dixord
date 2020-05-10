@@ -43,8 +43,7 @@ defmodule Dixord.AccountsTest do
     test "list_users/0 returns all users" do
       user = user_fixture()
       users = Accounts.list_users()
-      Enum.each(users, fn m -> assert m.id == user.id end)
-      Enum.each(users, fn m -> assert m.username == user.username end)
+      assert Enum.member?(users, Accounts.get_user!(user.id))
     end
 
     test "get_user!/1 returns the user with given id" do

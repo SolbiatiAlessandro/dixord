@@ -19,6 +19,28 @@
 	width: 75%;
 }
 
+.chat-lhc {
+	padding: 0.4rem 0.5rem;
+    margin: 0.1rem 0.5rem;
+    border-radius: 5px;
+}
+
+.chat-lhc:hover{
+    background-color: rgba(79,84,92,0.16);
+}
+
+.chat-lhc-edit{
+    display:none;
+}
+.chat-lhc:hover .chat-lhc-edit {
+    color: #8e9297;
+    display: block;
+}
+
+.chat-lhc-active {
+    background-color: rgba(79,84,92,0.24);
+}
+
 .server-box{
     background-color: #303136;
     padding: 20px;
@@ -99,6 +121,18 @@ background-color:rgb(42, 45, 48);border-color:#202225;padding:40px;    border-wi
 	background-color: #202225;
 	color: white !important;
 	padding:10px;
+}
+
+.dixord-form textarea{
+	width: 100%;
+	border: 1px solid black;
+	background-color: #202225;
+	color: white !important;
+	padding:10px;
+}
+
+.lhc h6{
+	font-size: 0.9rem;
 }
 
 .dixord-form h6 {

@@ -10,29 +10,13 @@ defmodule DixordWeb.PageController do
   https://elixircasts.io/partial-templates-with-phoenix
   """
   use DixordWeb, :controller
-  require Pow.Plug
-  plug(:authenticate_user)
 
-  def index(conn, _params) do
-    Phoenix.LiveView.Controller.live_render(
-      conn,
-      Dixord.ChatLiveView,
-      session: %{"current_user" => conn.assigns.current_user}
-    )
+  def get_landing_chat_path(conn) do
+    landing_chat_id = 1
+    Routes.chat_path(conn, :show, landing_chat_id)
   end
 
-  def authenticate_user(conn, _params) do
-    current_user =
-      if Pow.Plug.current_user(conn),
-        do:
-          Pow.Plug.current_user(conn).id
-          |> Dixord.Accounts.get_user!(),
-        else: Dixord.Accounts.create_guest_user()
-
-    assign(
-      conn,
-      :current_user,
-      current_user
-    )
+  def index(conn, _params) do
+    conn |> redirect(to: get_landing_chat_path(conn))
   end
 end

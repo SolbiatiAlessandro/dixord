@@ -1,0 +1,9 @@
+<div class="row d-flex align-items-center justify-content-center auth-screen" >
+  <div class="col-3">
+    <%= if Map.has_key?(assigns, :category_name) do %>
+    <%= render "form.html", assigns |> Map.put(:action, Routes.chat_path(@conn, :create)) |> Map.put(:category_name, @category_name) |> Map.put(:title, "Create New Chat")%>
+    <% else %>
+      <%= render "form.html", assigns |> Map.put(:action, Routes.chat_path(@conn, :create))  |> Map.put(:title, "Create New Chat") %>
+    <% end %>
+  </div>
+</div>

@@ -10,10 +10,11 @@ defmodule Dixord.ChatLiveView do
   """
   use Phoenix.LiveView
   require Dixord.Messaging
+  require DixordWeb.ChatView
   alias DixordWeb.Endpoint
   require DixordWeb.Components.LhcChat
 
-  @spec _process_presence() :: {
+  @spec _process_presence(%Dixord.Messaging.Chat{}) :: {
           list(%Dixord.Accounts.User{}),
           list(map())
         }
@@ -33,9 +34,11 @@ defmodule Dixord.ChatLiveView do
     this is a real User
 
   """
-  def _process_presence() do
+  def _process_presence(current_chat) do
     users_presence =
-      DixordWeb.Presence.list("lobby")
+      current_chat
+      |> Dixord.Messaging.get_channel_id()
+      |> DixordWeb.Presence.list()
       |> Enum.map(fn {_current_user, data} ->
         data[:metas]
         |> List.first()
@@ -61,7 +64,9 @@ defmodule Dixord.ChatLiveView do
   end
 
   def handle_info(%{event: "presence_diff", payload: _payload}, socket) do
-    {users, users_presence} = Dixord.ChatLiveView._process_presence()
+    {users, users_presence} =
+      socket.assigns.current_chat
+      |> Dixord.ChatLiveView._process_presence()
 
     {:noreply,
      assign(
@@ -74,7 +79,13 @@ defmodule Dixord.ChatLiveView do
   @doc """
   Callback function that gets triggered when a user sends a message
   """
-  def handle_event("message", %{"message" => message_params}, socket) do
+  def handle_event(
+        "message",
+        %{"message" => message_params},
+        socket = %{
+          assigns: %{current_user: user, current_chat: chat}
+        }
+      ) do
     # for some reason message_params has strings as key and I need atoms
     # https://stackoverflow.com/questions/31990134
     atom_message_params =
@@ -82,45 +93,97 @@ defmodule Dixord.ChatLiveView do
 
     # can't send empty messages
     if String.length(atom_message_params.content) > 0 do
-      Dixord.Messaging.create_message(atom_message_params, socket.assigns.current_user)
+      Dixord.Messaging.create_message(atom_message_params, user, chat)
     end
 
-    messages = Dixord.Messaging.list_messages()
-    DixordWeb.Endpoint.broadcast_from(self(), "lobby", "message", %{messages: messages})
+    # reload chat to get the updates messages
+    chat = Dixord.Messaging.get_chat!(chat.id)
+    messages = chat.messages
+
+    DixordWeb.Endpoint.broadcast_from(
+      self(),
+      Dixord.Messaging.get_channel_id(chat),
+      "message",
+      %{messages: messages, current_chat: chat}
+    )
+
     {:noreply, assign(socket, :messages, messages)}
   end
 
-  def handle_event("typing", _value, socket = %{assigns: %{current_user: user}}) do
+  def handle_event(
+        "typing",
+        _value,
+        socket = %{
+          assigns: %{current_user: user, current_chat: chat}
+        }
+      ) do
     payload = %{typing: true}
 
     metas =
-      DixordWeb.Presence.get_by_key("lobby", user.id)[:metas]
+      DixordWeb.Presence.get_by_key(
+        Dixord.Messaging.get_channel_id(chat),
+        user.id
+      )[:metas]
       |> List.first()
       |> Map.merge(payload)
 
-    DixordWeb.Presence.update(self(), "lobby", user.id, metas)
+    DixordWeb.Presence.update(
+      self(),
+      Dixord.Messaging.get_channel_id(chat),
+      user.id,
+      metas
+    )
+
     {:noreply, socket}
   end
 
-  def handle_event("stop_typing", _value, socket = %{assigns: %{current_user: user}}) do
+  def handle_event(
+        "stop_typing",
+        _value,
+        socket = %{
+          assigns: %{current_user: user, current_chat: chat}
+        }
+      ) do
     payload = %{typing: false}
 
     metas =
-      DixordWeb.Presence.get_by_key("lobby", user.id)[:metas]
+      DixordWeb.Presence.get_by_key(
+        Dixord.Messaging.get_channel_id(chat),
+        user.id
+      )[:metas]
       |> List.first()
       |> Map.merge(payload)
 
-    DixordWeb.Presence.update(self(), "lobby", user.id, metas)
+    DixordWeb.Presence.update(
+      self(),
+      Dixord.Messaging.get_channel_id(chat),
+      user.id,
+      metas
+    )
+
     {:noreply, socket}
   end
 
-  @impl true
-  def mount(_params, %{"current_user" => current_user}, socket) do
-    DixordWeb.Endpoint.subscribe("lobby")
+  @doc """
+  This is the mount for the chat LiveView, it does a bunch
+  of thing to set up the chat, most importantly loads messages,
+  chats, and set current_user and current_chat for the .eex
+  """
+  def mount(
+        _params,
+        %{
+          "current_user" => current_user,
+          "current_chat" => current_chat
+        },
+        socket
+      ) do
+    current_chat
+    |> Dixord.Messaging.get_channel_id()
+    |> DixordWeb.Endpoint.subscribe()
 
     DixordWeb.Presence.track(
       self(),
-      "lobby",
+      Dixord.Messaging.get_channel_id(current_chat),
       current_user.id,
       %{
         id: current_user.id,
@@ -130,15 +193,22 @@ defmodule Dixord.ChatLiveView do
       }
     )
 
-    messages = Dixord.Messaging.list_messages()
-    {users, users_presence} = Dixord.ChatLiveView._process_presence()
+    messages = current_chat.messages
+
+    {users, users_presence} =
+      current_chat
+      |> Dixord.ChatLiveView._process_presence()
+
+    chats = Dixord.Messaging.list_chats_grouped_by_category()
 
     {:ok,
      assign(
        socket,
+       chats: chats,
        messages: messages,
        message: Dixord.Messaging.change_message(),
        current_user: current_user,
+       current_chat: current_chat,
        users: users,
        users_presence: users_presence,
        conn: Endpoint

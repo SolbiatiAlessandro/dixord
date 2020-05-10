@@ -1,0 +1,30 @@
+
+    <!-- Modal -->
+    <div class="modal fade" id={{ @id }} tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+    <%= form_for @changeset, @action, fn f -> %>
+    <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Oops, something went wrong! Please check the errors below.</p>
+    </div>
+    <% end %>
+
+    <div class="row dixord-form">
+    <div class="col">
+      <h4 class="text-white">Create An Account</h4>
+        <h6>Username</h6>
+          <%= text_input f, :name %>
+          <%= error_tag f, :namee %>
+        <h6>Category</h6>
+          <%= text_input f, :category %>
+          <%= error_tag f, :category %>
+        <%= submit "Continue", class: "text-light btn btn-primary mt-4 w-100" %>
+    </div>
+    </div>
+    <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
