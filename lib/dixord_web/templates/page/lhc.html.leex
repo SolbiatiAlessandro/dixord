@@ -1,0 +1,69 @@
+  <div class="col-md-1 server-lhc d-none">
+    <%= DixordWeb.Components.LhcServer.render(
+           assigns |> Map.put(:name, "home")|> Map.put(:active, false)
+    ) %>
+    <div class="server-lhc-separator mt-3">
+    </div>
+    <%= DixordWeb.Components.LhcServer.render(
+        assigns |> Map.put(:name, "Guests Server")|> Map.put(:active, true)
+    ) %>
+    <%= DixordWeb.Components.LhcServer.render(
+        assigns |> Map.put(:name, "Elixir School")|> Map.put(:active, false)
+    ) %>
+    <%= DixordWeb.Components.LhcServer.render(
+        assigns |> Map.put(:name, "Harvard CS50")|> Map.put(:active, false)
+    ) %>
+    <%= DixordWeb.Components.LhcServer.render(
+        assigns |> Map.put(:name, "Andrew Ng's Machine Learning")|> Map.put(:active, false)
+    ) %>
+  </div>
+  <div class="col-md-2 d-none d-md-block sidebar pr-0 pl-0" >
+    <div class="sidebar-sticky">
+      <ul class="nav flex-column lhc">
+        <%= for category <- @chats do %>
+          <div class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+            <h6 class="text-uppercase font-weight-bold mb-0">
+              <%= category.category_name %>
+            </h6>
+            <%= link to: Routes.chat_path(@conn, :new, category_name: category.category_name), class: "d-flex align-items-center text-muted" do %>
+              <svg class="addButtonIcon-3u-3Hu" aria-hidden="false" width="18" height="18" viewBox="0 0 18 18"><polygon fill-rule="nonzero" fill="currentColor" points="15 10 10 10 10 15 8 15 8 10 3 10 3 8 8 8 8 3 10 3 10 8 15 8"></polygon></svg>
+            <% end %>
+          </div>
+          <%= for chat <- category.chats do %>
+            <%= DixordWeb.Components.LhcChat.render(
+               assigns
+               |> Map.put(:chat, chat)
+               |> Map.put(:active, chat.id == @current_chat.id)
+               |> Map.put(:chat_link, Routes.chat_path(@conn, :show, chat))
+               |> Map.put(:chat_edit_link, Routes.chat_path(@conn, :edit, chat))
+  ) %>
+          <% end %>
+        <% end %>
+      </ul>
+      <div class="w-100 your-account-container">
+      <%= if !@current_user.claimed do %>
+      <div class="p-3" style="background-color:#f26522;color:white;">
+        <%= link "This is an unclaimed account, claim it before it's lost.", to: Routes.pow_registration_path(@conn, :new), class: "text-white text-bold" %>
+      </div>
+      <div class="w-100 p-3">
+        <%= render DixordWeb.PageView, "message_body.html",
+              assigns
+                |> Map.put(:message_content, "Temporary Account") 
+                |> Map.put(:message_inserted_at, "") 
+                |> Map.put(:user, @current_user)
+              %>
+      </div>
+    <% else %>
+      <div class="w-100 p-3">
+        <%= render DixordWeb.PageView, "message_body.html",
+              assigns
+|> Map.put(:message_content, "Messages Sent: #{length(@current_user.messages)}") 
+                |> Map.put(:message_inserted_at, "") 
+                |> Map.put(:user, @current_user)
+              %>
+      </div>
+
+      <% end %>
+      </div>
+    </div>
+  </div>
