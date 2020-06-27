@@ -4,6 +4,15 @@
   background-color: #2f3136 !important;
 }
 
+/*https://stackoverflow.com/a/54984409/7067655*/
+ul {
+    scrollbar-width: none; /* For Firefox */
+    -ms-overflow-style: none; /* For Internet Explorer and Edge */
+}
+ul::-webkit-scrollbar {
+    width: 0px; /* For Chrome, Safari, and Opera */
+}
+
 .navbar-dark{
   background-color: #202225;
 }
