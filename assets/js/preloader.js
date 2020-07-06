@@ -41,7 +41,7 @@ class Preloader{
 			if (this.container!=undefined){
 				this.container.appendChild(this.domElement);
 			}else{
-				document.body.appendChild(this.domElement);
+				//document.body.appendChild(this.domElement);
 			}
 		}else{
 			this.onprogress = options.onprogress;

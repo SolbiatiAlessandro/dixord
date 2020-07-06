@@ -20,7 +20,8 @@ class Game{
 		oncomplete: function(){
 		  game.init();
 		  game.animate();
-		}
+		},
+		  container: document.getElementById("renderer")
 	  }
 
 	  // first animation is set as soon as the character is spawned
@@ -45,6 +46,8 @@ class Game{
 
 	// initialises the game scene, camera and objects
     init(){
+	  this.loadMultiplayer();
+
 	    this.mode = this.modes.INIT;
 
 		// scene setup, light camera and background.
@@ -119,7 +122,30 @@ class Game{
 			game.mode = game.modes.ACTIVE;
 		})
 
-		// load remaining animations
+
+		// render name on top of the model 
+	    var parent = new THREE.Object3D();
+	    parent.position.y = 200;
+
+	    var text_loader = new THREE.FontLoader();
+	    text_loader.load( 'fonts/helvetiker_regular.typeface.json', function ( font ) {
+		    var  textGeo = new THREE.TextGeometry(game.player.username, {
+			                size: 12,
+			                height: 5,
+			                curveSegments: 6,
+			                font: font,
+			        });
+		        var  color = new THREE.Color();
+		        color.setRGB(255, 250, 250);
+		        var  textMaterial = new THREE.MeshBasicMaterial({ color: color });
+		        var  text = new THREE.Mesh(textGeo , textMaterial);
+		        text.position.y = 200
+		    text.rotation.y = Math.PI ;
+		        game.scene.add(text);
+		        game.player.username_mesh = text
+	    } );
+
+	    //load remaining animations
 		this.animations.forEach(function(animation){
 		  loader.load( `${game.assetsPath}${animation}.fbx`, function(object){
 			game.player[animation] = object.animations[0]
@@ -166,7 +192,14 @@ class Game{
 	  
 	  // environment
 	  game.loadEnvironment(loader);
+
 	}
+
+    loadMultiplayer(){
+	    console.log("loading multiplayer..")
+	    this.player.username = $("#player_username")[0].innerHTML
+	    console.log(this.player.username)
+    }
 
     loadInteractions(){
 	  this.interactions = {'OfficeChair_02': {
@@ -284,9 +317,20 @@ class Game{
 		  // player object translations
 		  if (this.player.move.forward > 0) this.moveForward(dt);
 		  this.player.object.rotation.y +=  (this.player.move.direction * dt);
+		  var player_position = this.player.object.position.clone();
+		  var player_rotation = this.player.object.rotation.clone();
+
+		  // username_mesh tracking
+	          this.player.username_mesh.rotation.set(player_rotation.x, player_rotation.y + Math.PI, player_rotation.z)
+	          this.player.username_mesh.position.set(player_position.x, player_position.y, player_position.z)
+		  // this.player.username_mesh.position.z += 200
+		  this.player.username_mesh.translateY(200)
+	          this.player.username_mesh.rotateY(-player_rotation.y)
+		  this.player.username_mesh.translateX(-1 * 10 * game.player.username.length / 2)
+		  // this.player.username_mesh.translateZ(50)
+		  
 
 		  // camera tracking
-		  var player_position = this.player.object.position.clone();
 		  var camera_position = this.player.object.position.clone();
 		  var camera_distance = 500
 		  var camera_angle = (Math.PI / 4) + this.player.object.rotation.x
