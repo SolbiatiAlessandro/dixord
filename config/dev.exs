@@ -4,7 +4,7 @@ use Mix.Config
 config :dixord, Dixord.Repo,
   username: "postgres",
   password: "postgres",
-  database: "dixord_dev",
+  database: "dixord3d_dev",
   hostname: "localhost",
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
