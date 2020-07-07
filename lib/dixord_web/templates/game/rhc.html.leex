@@ -2,14 +2,19 @@
       <div class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
         <h6 class="text-uppercase font-weight-bold mb-0">PLAYERS—<%= length(@users) %></h6>
       </div>
-      <ul class="nav flex-column lhc pl-3 pt-1">
+      <%= for user <- @users_presence do %>
+        <p id="player_<%= user.id %>_position" z="<%= user.z %>" y="<%= user.y %>" x="<%= user.x %>">
+          z="<%= user.z %>" y="<%= user.y %>" x="<%= user.x %>"
+        </p>
+      <% end %>
+      <ul class="nav flex-column lhc pl-3 pt-1" id="users-data">
           <%= for user <- @users do %>
             <%= render "message_body.html", 
                         assigns 
                         |> Map.put(:message_content, "Online") 
                         |> Map.put(:message_inserted_at, "") 
                         |> Map.put(:user, user)
-            %>
+                      %>
           <% end %>
       </ul>
-  </div>
+</div>

@@ -91,10 +91,10 @@ class Preloader{
 				  loader.assets[url].complete = true;
 				  if (loader.checkCompleted()){
 					  if (loader.domElement!=undefined){
-						  if (loader.container!=undefined){
+						  if (loader.container!=undefined && loader.container.contains(loader.domElement)){
 							  loader.container.removeChild(loader.domElement);
 						  }else{
-							  document.body.removeChild(loader.domElement);
+							  //document.body.removeChild(loader.domElement);
 						  }
 					  }
 					  loader.oncomplete();	

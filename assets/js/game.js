@@ -117,7 +117,7 @@ class Game{
 				child.receiveShadow = true;
 			  }
 			});
-
+			 
 			game.scene.add(object)
 			game.mode = game.modes.ACTIVE;
 		})
@@ -196,9 +196,8 @@ class Game{
 	}
 
     loadMultiplayer(){
-	    console.log("loading multiplayer..")
 	    this.player.username = $("#player_username")[0].innerHTML
-	    console.log(this.player.username)
+	    this.player.id = $("#player_id")[0].innerHTML
     }
 
     loadInteractions(){
@@ -315,7 +314,7 @@ class Game{
 	  // movements
 		if (this.player.object != undefined){
 		  // player object translations
-		  if (this.player.move.forward > 0) this.moveForward(dt);
+		  if (this.player.move.forward > 0) this.moveForward(0.001);
 		  this.player.object.rotation.y +=  (this.player.move.direction * dt);
 		  var player_position = this.player.object.position.clone();
 		  var player_rotation = this.player.object.rotation.clone();
@@ -366,6 +365,24 @@ class Game{
 
 
         this.renderer.render( this.scene, this.camera );
+	
+
+	//after rendering broadcast data for multiplayer
+	if (this.player.object != undefined){;
+		['x'].forEach(function updateAxis(axis) {
+
+			var x_attr = $("#player_position")[0].attributes[axis] 
+			var x_value = game.player.object.position[axis]
+			if( x_value != 0 ){
+				;debugger
+				$("#player_position")[0].setAttribute(axis, game.player.object.position[axis])
+			}
+			/*
+			if($("#player_rotation")[0].attributes[axis].value != String(game.player.object.rotation[axis])){
+				$("#player_rotation")[0].setAttribute(axis, game.player.object.rotation[axis])
+			}*/
+		})
+	}
     }
 
     moveForward(dt){

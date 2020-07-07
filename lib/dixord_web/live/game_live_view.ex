@@ -27,6 +27,7 @@ defmodule Dixord.GameLiveView do
   users_presence:
     presence data, :metas is a map with fields
     like phx_ref, username, and typing. 
+  :metas is defined at Presence.track
 
   users:
     users data (this is a %User{} struct)
@@ -66,7 +67,7 @@ defmodule Dixord.GameLiveView do
   def handle_info(%{event: "presence_diff", payload: _payload}, socket) do
     {users, users_presence} =
       socket.assigns.current_chat
-      |> Dixord.ChatLiveView._process_presence()
+      |> _process_presence()
 
     {:noreply,
      assign(
@@ -74,6 +75,33 @@ defmodule Dixord.GameLiveView do
        users: users,
        users_presence: users_presence
      )}
+  end
+
+  def handle_event(
+        "player-position-updated",
+        %{"axis" => axis, "value" => value},
+        socket = %{
+          assigns: %{current_user: user, current_chat: chat}
+        }
+      ) do
+    payload = Map.put_new(%{}, String.to_atom(axis), value)
+
+    metas =
+      DixordWeb.Presence.get_by_key(
+        Dixord.Messaging.get_channel_id(chat),
+        user.id
+      )[:metas]
+      |> List.first()
+      |> Map.merge(payload)
+
+    DixordWeb.Presence.update(
+      self(),
+      Dixord.Messaging.get_channel_id(chat),
+      user.id,
+      metas
+    )
+
+    {:noreply, socket}
   end
 
   @doc """
@@ -189,7 +217,10 @@ defmodule Dixord.GameLiveView do
         id: current_user.id,
         username: current_user.username,
         profile_picture_url: current_user.profile_picture_url,
-        typing: false
+        typing: false,
+        x: 0,
+        y: 0,
+        z: 0
       }
     )
 
@@ -197,7 +228,7 @@ defmodule Dixord.GameLiveView do
 
     {users, users_presence} =
       current_chat
-      |> Dixord.ChatLiveView._process_presence()
+      |> _process_presence()
 
     chats = Dixord.Messaging.list_chats_grouped_by_category()
 
