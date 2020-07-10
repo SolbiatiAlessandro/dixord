@@ -5,8 +5,9 @@ import { rotateAboutCenter } from "./geometry"
 
 class Game{
     // preload game assets
-    constructor(){
+    constructor(socket_channel){
 	  const game = this;
+	  this.socket_channel = socket_channel;
 	  this.player = { };
 	  this.modes = Object.freeze({
 		NONE: Symbol("none"),
@@ -198,6 +199,11 @@ class Game{
     loadMultiplayer(){
 	    this.player.username = $("#player_username")[0].innerHTML
 	    this.player.id = $("#player_id")[0].innerHTML
+	    function handle_player_update_position(payload){
+		  ;debugger
+		  $(`#player_${payload.player_id}_position`).html(`z=0 y=0 ${payload.axis}=${payload.value}`);
+		}
+	    this.socket_channel.on('shout', handle_player_update_position);
     }
 
     loadInteractions(){
@@ -314,7 +320,7 @@ class Game{
 	  // movements
 		if (this.player.object != undefined){
 		  // player object translations
-		  if (this.player.move.forward > 0) this.moveForward(0.001);
+		  if (this.player.move.forward > 0) this.moveForward(dt);
 		  this.player.object.rotation.y +=  (this.player.move.direction * dt);
 		  var player_position = this.player.object.position.clone();
 		  var player_rotation = this.player.object.rotation.clone();
@@ -367,22 +373,22 @@ class Game{
         this.renderer.render( this.scene, this.camera );
 	
 
-	//after rendering broadcast data for multiplayer
-	if (this.player.object != undefined){;
-		['x'].forEach(function updateAxis(axis) {
-
-			var x_attr = $("#player_position")[0].attributes[axis] 
-			var x_value = game.player.object.position[axis]
-			if( x_value != 0 ){
-				;debugger
-				$("#player_position")[0].setAttribute(axis, game.player.object.position[axis])
-			}
-			/*
-			if($("#player_rotation")[0].attributes[axis].value != String(game.player.object.rotation[axis])){
-				$("#player_rotation")[0].setAttribute(axis, game.player.object.rotation[axis])
-			}*/
-		})
-	}
+		//after rendering broadcast data for multiplayer
+		if (this.player.object != undefined){;
+			['x'].forEach(function updateAxis(axis) {
+				// TODO: optimse to broadcast only when value changes
+				var axis_value = game.player.object.position[axis];
+				game.socket_channel.push('shout', {
+				  player_id:  game.player.id,
+				  axis: axis,
+				  value: axis_value
+				});
+				/*
+				if($("#player_rotation")[0].attributes[axis].value != String(game.player.object.rotation[axis])){
+					$("#player_rotation")[0].setAttribute(axis, game.player.object.rotation[axis])
+				}*/
+			})
+		}
     }
 
     moveForward(dt){
