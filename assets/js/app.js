@@ -26,7 +26,7 @@ import {Socket} from "phoenix"
 // 	$('#msg-list').children()[$('#msg-list').children().length - 1].scrollIntoView()
 // 		}
 // 		}
-//
+/l
 Hooks.PlayerPosition = {
   mounted(){
 	var hook = this
@@ -37,11 +37,11 @@ Hooks.PlayerPosition = {
 		    var attribute = mutation.target.attributes[mutation.attributeName]
 		    var value = attribute ? attribute.value : 0
 		    console.log('The ' + mutation.attributeName + ' attribute was modified: ' + value );
-		    //hook.pushEvent("player-position-updated", {axis: mutation.attributeName, value: value})
+		    hook.pushEvent("player-position-updated", {axis: mutation.attributeName, value: value})
 		}
 	    }
 	});
-	player_position_observer.observe($("#player_position")[0], {attributes: true});
+	player_position_observer.observe($("#player_position")[0], {attributes: true});*/
   }
 }
 
