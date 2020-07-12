@@ -244,6 +244,20 @@ class Game{
 	  }
     }
 
+    updateOnlinePlayerUsernameMesh(player_id){
+	  if(this.online_players[player_id] != undefined && this.online_players[player_id].object != undefined){
+		  var player = this.online_players[player_id]
+		  var player_position = player.object.position.clone();
+		  var player_rotation = player.object.rotation.clone();
+		  // username_mesh tracking
+	          player.username_mesh.rotation.set(player_rotation.x, player_rotation.y + Math.PI, player_rotation.z)
+	          player.username_mesh.position.set(player_position.x, player_position.y, player_position.z)
+		  player.username_mesh.translateY(200)
+	          player.username_mesh.rotateY(-player_rotation.y)
+		  player.username_mesh.translateX(-1 * 10 * game.player.username.length / 2)
+	  }
+    }
+
     addOnlinePlayer(id, username, position){
 	    console.log("adding online player");
 	    if(this.online_players == undefined){
@@ -282,6 +296,24 @@ class Game{
 				console.log(error)
 			}
 		})
+
+	    var text_loader = new THREE.FontLoader();
+	    text_loader.load( 'fonts/helvetiker_regular.typeface.json', function ( font ) {
+		    var  textGeo = new THREE.TextGeometry(username, {
+			                size: 12,
+			                height: 5,
+			                curveSegments: 6,
+			                font: font,
+			        });
+		        var  color = new THREE.Color();
+		        color.setRGB(255, 250, 250);
+		        var  textMaterial = new THREE.MeshBasicMaterial({ color: color });
+		        var  text = new THREE.Mesh(textGeo , textMaterial);
+		        text.position.y = 200
+		    text.rotation.y = Math.PI ;
+		        game.scene.add(text);
+			game.online_players[id].username_mesh = text
+	    } );
     }
 
     loadMultiplayer(){
@@ -470,6 +502,7 @@ class Game{
 	    this.updateOnlinePlayerRotation(player_id, 'y')
 	    this.updateOnlinePlayerRotation(player_id, 'z')
 	    this.updateOnlinePlayerAction(player_id)
+	    this.updateOnlinePlayerUsernameMesh(player_id)
 	}
 
 

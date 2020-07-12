@@ -79,9 +79,9 @@ function user_row_template(profile_picture_url, username, id, position, rotation
 	    <p class="d-none" id="player_${id}_position_x">${position.x}</p>
 	    <p class="d-none" id="player_${id}_position_y">${position.y}</p>
 	    <p class="d-none" id="player_${id}_position_z">${position.z}</p>
-	    <p class="" id="player_${id}_rotation_x">${rotation.x}</p>
-	    <p class="" id="player_${id}_rotation_y">${rotation.y}</p>
-	    <p class="" id="player_${id}_rotation_z">${rotation.z}</p>
+	    <p class="d-none" id="player_${id}_rotation_x">${rotation.x}</p>
+	    <p class="d-none" id="player_${id}_rotation_y">${rotation.y}</p>
+	    <p class="d-none" id="player_${id}_rotation_z">${rotation.z}</p>
 	    <p class="" id="player_${id}_action">${action}</p>
         </div>
       </div>
