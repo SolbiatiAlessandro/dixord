@@ -196,14 +196,31 @@ class Game{
 
 	}
 
+    removeOfflinePlayers(online_players_id){
+	if(this.online_players == undefined){
+		return
+	}
+	Object.keys(this.online_players).forEach((id) => {
+		if( !online_players_id.includes(id) ) {
+			this.scene.remove(this.online_players[id].object);
+		}
+	})
+    }
+
     addOnlinePlayer(id, username, position){
 	    console.log("adding online player");
+	    if(this.online_players == undefined){
+		    return
+	    }
+	    if(this.online_players && Object.keys(this.online_players).includes(String(id))){
+		    return
+	    }
 	    this.online_players[id] = {id: id, username: username, position: position}
 
 	    const game = this
 	    game.FBXloader.load( `${this.assetsPath}${this.animations[0]}.fbx`,
 		  function (object) {
-			debugger;
+			try{
 			object.mixer = new THREE.AnimationMixer( object );
 			game.online_players[id].mixer = object.mixer;
 			game.online_players[id].root = object.mixer.getRoot();
@@ -212,8 +229,8 @@ class Game{
 
 			object.name = "Character" + id
 			object.position.x = position.x
-			object.position.y = position.y
-			object.position.z = position.z
+			object.position.y = 0
+			object.position.z = 0
 			game.online_players[id].object = object
 			object.traverse( function (child){
 			  if ( child.isMesh ) {
@@ -223,6 +240,10 @@ class Game{
 			});
 			 
 			game.scene.add(object)
+			} catch (error) {
+				;debugger
+				console.log(error)
+			}
 		})
     }
 
@@ -231,7 +252,7 @@ class Game{
 	    this.player.id = $("#player_id")[0].innerHTML
 
 	    this.online_players = {}
-	    this.addOnlinePlayer('-1', 'NonPlayingCharacter', {x: 300, y: 0, z: 0})
+	    //this.addOnlinePlayer('-1', 'NonPlayingCharacter', {x: 300, y: 0, z: 0})
 
     }
 
@@ -403,6 +424,12 @@ class Game{
 	    var player = this.online_players[player_id]
 	    if (player.mixer != undefined){
 		    player.mixer.update(dt);
+	    }
+
+	    var position_x_info = $(`#player_${player_id}_position_x`)[0]
+	    if(this.online_players[player_id] != undefined && this.online_players[player_id].object != undefined && position_x_info != undefined){
+		    var position_x = parseFloat(position_x_info.innerHTML);
+		    this.online_players[player_id].object.position.x = position_x
 	    }
 	}
 

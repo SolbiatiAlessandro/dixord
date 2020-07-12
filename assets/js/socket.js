@@ -87,7 +87,12 @@ function user_row_template(profile_picture_url, username, id, position_x) {
 // PResence
 function render_users(presence_list){
 	$("#users-data").empty()
+	var online_players_id = presence_list.map((x) => (x.metas[0].user_id))
+	// NOT WORKING: for some reason remove immediately players that should not be removed
+	// and prevent other users to be shown
+	//window.game.removeOfflinePlayers(online_players_id)
 	presence_list.forEach((presence) => {
+		// add to lhc list
 		var presence_data = presence.metas[0]
 		$("#users-data").append(
 			user_row_template(
@@ -96,6 +101,10 @@ function render_users(presence_list){
 				presence_data.user_id,
 				presence_data.position.x
 			))
+		// add to game
+		if( presence_data.user_id != user_id ){
+			window.game.addOnlinePlayer(presence_data.user_id, presence_data.username, presence_data.position)
+		}
 	})
 }
 let presence = new Presence(channel)
