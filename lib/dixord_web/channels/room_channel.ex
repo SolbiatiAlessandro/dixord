@@ -24,7 +24,13 @@ defmodule DixordWeb.RoomChannel do
         x: 0,
         y: 0,
         z: 0
-      }
+      },
+      rotation: %{
+        x: 0,
+        y: 0,
+        z: 0
+      },
+      action: "standing"
     })
 
     push(socket, "presence_state", Presence.list(socket))
@@ -46,8 +52,28 @@ defmodule DixordWeb.RoomChannel do
           assigns: %{current_user: user}
         }
       ) do
-    payload = Map.put_new(%{}, String.to_atom(axis), value)
+    _update_presence_meta_dict(user, :position, axis, value)
+    {:noreply, socket}
+  end
 
+  def handle_in(
+        "player-rotation-updated",
+        %{"axis" => axis, "value" => value},
+        socket = %{
+          assigns: %{current_user: user}
+        }
+      ) do
+    _update_presence_meta_dict(user, :rotation, axis, value)
+    {:noreply, socket}
+  end
+
+  def handle_in(
+        "player-action-updated",
+        %{"value" => value},
+        socket = %{
+          assigns: %{current_user: user}
+        }
+      ) do
     metas =
       DixordWeb.Presence.get_by_key(
         "room:lobby",
@@ -55,8 +81,7 @@ defmodule DixordWeb.RoomChannel do
       )[:metas]
       |> List.first()
 
-    updated_position = Map.put(metas.position, String.to_atom(axis), value)
-    updated_metas = Map.put(metas, :position, updated_position)
+    updated_metas = Map.put(metas, :action, value)
 
     DixordWeb.Presence.update(
       self(),
@@ -66,6 +91,30 @@ defmodule DixordWeb.RoomChannel do
     )
 
     {:noreply, socket}
+  end
+
+  @docstring """
+      Updates a dict payload on the metas object like metas.rotation or metas.position
+  """
+  def _update_presence_meta_dict(user, meta_key, payload_key, payload_value) do
+    metas =
+      DixordWeb.Presence.get_by_key(
+        "room:lobby",
+        user.id
+      )[:metas]
+      |> List.first()
+
+    updated_meta_dict =
+      Map.put(Map.get(metas, meta_key), String.to_atom(payload_key), payload_value)
+
+    updated_metas = Map.put(metas, meta_key, updated_meta_dict)
+
+    DixordWeb.Presence.update(
+      self(),
+      "room:lobby",
+      user.id,
+      updated_metas
+    )
   end
 
   # Add authorization logic here as required.

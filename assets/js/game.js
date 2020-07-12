@@ -36,7 +36,7 @@ class Game{
 	  const preloader = new Preloader(options)
 
 	  window.onError = function(error){
-		console.error(JSON.stringify(error));
+	      console.error(JSON.stringify(error));
 	  }
 
 	  this.audioAssetsPath = 'sfx/';
@@ -146,7 +146,7 @@ class Game{
 		        game.player.username_mesh = text
 	    } );
 
-	    //load remaining animations
+	    //load remaining animation"
 		this.animations.forEach(function(animation){
 		  game.FBXloader.load( `${game.assetsPath}${animation}.fbx`, function(object){
 			game.player[animation] = object.animations[0]
@@ -213,6 +213,35 @@ class Game{
 		    var position = parseFloat(position_info.innerHTML);
 		    this.online_players[player_id].object.position[axis] = position
 	    }
+    }
+
+    updateOnlinePlayerRotation(player_id, axis){
+	    var rotation_info = $(`#player_${player_id}_rotation_${axis}`)[0]
+	    if(this.online_players[player_id] != undefined && this.online_players[player_id].object != undefined && rotation_info != undefined){
+		    var rotation = parseFloat(rotation_info.innerHTML);
+		    this.online_players[player_id].object.rotation[axis] = rotation
+	    }
+    }
+
+    updateOnlinePlayerAction(player_id){
+	  var action_info = $(`#player_${player_id}_action`)[0]
+	  if(this.online_players[player_id] != undefined && this.online_players[player_id].object != undefined && action_info != undefined){
+		  var action_name = action_info.innerHTML
+		  var player = this.online_players[player_id]
+		  if(player.action === action_name){
+			  // already playing this action
+			  return
+		  }
+		  var animation = this.player[action_name]
+		  const action = this.online_players[player_id].mixer.clipAction( animation );
+		  action.time = 0
+		  player.mixer.stopAllAction();
+		  player.action = action_name;
+		  //action.fadeIn(0.1);
+		  if (action_name=='sitting') action.loop = THREE.LoopOnce;
+		  //if (name=="sit-look-around") action.fadeIn(0.5)
+		  action.play();
+	  }
     }
 
     addOnlinePlayer(id, username, position){
@@ -437,26 +466,36 @@ class Game{
 	    this.updateOnlinePlayerPosition(player_id, 'x')
 	    this.updateOnlinePlayerPosition(player_id, 'y')
 	    this.updateOnlinePlayerPosition(player_id, 'z')
+	    this.updateOnlinePlayerRotation(player_id, 'x')
+	    this.updateOnlinePlayerRotation(player_id, 'y')
+	    this.updateOnlinePlayerRotation(player_id, 'z')
+	    this.updateOnlinePlayerAction(player_id)
 	}
 
 
         this.renderer.render( this.scene, this.camera );
-	
 
 		//after rendering broadcast data for multiplayer
 		if (this.player.object != undefined){;
 			['x', 'y', 'z'].forEach(function updateAxis(axis) {
 				// TODO: optimse to broadcast only when value changes
-				var axis_value = game.player.object.position[axis];
+				var position_axis_value = game.player.object.position[axis];
 				game.socket_channel.push('player-position-updated', {
 				  player_id:  game.player.id,
 				  axis: axis,
-				  value: axis_value
+				  value: position_axis_value
 				});
-				/*
-				if($("#player_rotation")[0].attributes[axis].value != String(game.player.object.rotation[axis])){
-					$("#player_rotation")[0].setAttribute(axis, game.player.object.rotation[axis])
-				}*/
+				var rotation_axis_value = game.player.object.rotation[axis];
+				game.socket_channel.push('player-rotation-updated', {
+				  player_id:  game.player.id,
+				  axis: axis,
+				  value: rotation_axis_value
+				});
+				var action_value = game.player.action
+				game.socket_channel.push('player-action-updated', {
+				  player_id:  game.player.id,
+				  value: action_value
+				})
 			})
 		}
     }
