@@ -200,7 +200,6 @@ class Game{
 	    this.player.username = $("#player_username")[0].innerHTML
 	    this.player.id = $("#player_id")[0].innerHTML
 	    function handle_player_update_position(payload){
-		  ;debugger
 		  $(`#player_${payload.player_id}_position`).html(`z=0 y=0 ${payload.axis}=${payload.value}`);
 		}
 	    this.socket_channel.on('shout', handle_player_update_position);

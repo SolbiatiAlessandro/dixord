@@ -6,7 +6,7 @@
 //
 // Pass the token on params as below. Or remove it
 // from the params if you are not using authentication.
-import {Socket} from "phoenix"
+import {Socket, Presence} from "phoenix"
 
 let socket = new Socket("/socket", {params: {token: window.userToken}})
 
@@ -55,9 +55,41 @@ let socket = new Socket("/socket", {params: {token: window.userToken}})
 socket.connect()
 
 // Now that you are connected, you can join channels with a topic:
-let channel = socket.channel("topic:subtopic", {})
+let channel = socket.channel("room:lobby", {})
+window.channel = channel
+
 channel.join()
   .receive("ok", resp => { console.log("Joined successfully", resp) })
   .receive("error", resp => { console.log("Unable to join", resp) })
+
+// PResence
+function render_users(presence_list){
+	console.log("Render_users")
+	console.log(presence_list)
+}
+let presence = new Presence(channel)
+
+// detect if user has joined for the 1st time or from another tab/device
+presence.onJoin((id, current, newPres) => {
+  if(!current){
+    console.log("user has entered for the first time", newPres)
+  } else {
+    console.log("user additional presence", newPres)
+  }
+})
+
+// detect if user has left from all tabs/devices, or is still present
+presence.onLeave((id, current, leftPres) => {
+  if(current.metas.length === 0){
+    console.log("user has left from all devices", leftPres)
+  } else {
+    console.log("user left from a device", leftPres)
+  }
+})
+// receive presence data from server
+presence.onSync(() => {
+  console.log(presence.list())
+})
+window.presence = presence
 
 export default socket

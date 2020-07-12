@@ -15,11 +15,9 @@ import "phoenix_html"
 //
 // Local files can be imported directly using relative paths, for example:
 import socket from "./socket"
-let channel = socket.channel('room:lobby', {});
-channel.join(); // join the channel.
 
 import Game from "./game"
 document.addEventListener("DOMContentLoaded", function(){
-	const game = new Game(channel);
+	const game = new Game(window.channel);
 	window.game = game;//For debugging only
 });
