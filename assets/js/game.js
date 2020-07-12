@@ -47,6 +47,7 @@ class Game{
 
 	// initialises the game scene, camera and objects
     init(){
+	    this.FBXloader = new THREE.FBXLoader();
 	  this.loadMultiplayer();
 
 	    this.mode = this.modes.INIT;
@@ -99,10 +100,9 @@ class Game{
         document.getElementById("renderer").appendChild( this.renderer.domElement );
 
 		// model setup
-	    const loader = new THREE.FBXLoader();
 	    const game = this
 		// bootup model with the first animation
-	    loader.load( `${this.assetsPath}${this.animations[0]}.fbx`,
+	    this.FBXloader.load( `${this.assetsPath}${this.animations[0]}.fbx`,
 		  function (object) {
 			object.mixer = new THREE.AnimationMixer( object );
 			game.player.mixer = object.mixer;
@@ -148,7 +148,7 @@ class Game{
 
 	    //load remaining animations
 		this.animations.forEach(function(animation){
-		  loader.load( `${game.assetsPath}${animation}.fbx`, function(object){
+		  game.FBXloader.load( `${game.assetsPath}${animation}.fbx`, function(object){
 			game.player[animation] = object.animations[0]
 		  })
 		})
@@ -192,17 +192,47 @@ class Game{
 	  })
 	  
 	  // environment
-	  game.loadEnvironment(loader);
+	  game.loadEnvironment();
 
 	}
+
+    addOnlinePlayer(id, username, position){
+	    console.log("adding online player");
+	    this.online_players[id] = {id: id, username: username, position: position}
+
+	    const game = this
+	    game.FBXloader.load( `${this.assetsPath}${this.animations[0]}.fbx`,
+		  function (object) {
+			debugger;
+			object.mixer = new THREE.AnimationMixer( object );
+			game.online_players[id].mixer = object.mixer;
+			game.online_players[id].root = object.mixer.getRoot();
+			const first_action = game.online_players[id].mixer.clipAction( object.animations[0] )
+			first_action.play()
+
+			object.name = "Character" + id
+			object.position.x = position.x
+			object.position.y = position.y
+			object.position.z = position.z
+			game.online_players[id].object = object
+			object.traverse( function (child){
+			  if ( child.isMesh ) {
+				child.castShadow = true;
+				child.receiveShadow = true;
+			  }
+			});
+			 
+			game.scene.add(object)
+		})
+    }
 
     loadMultiplayer(){
 	    this.player.username = $("#player_username")[0].innerHTML
 	    this.player.id = $("#player_id")[0].innerHTML
-	    function handle_player_update_position(payload){
-		  $(`#player_${payload.player_id}_position`).html(`z=0 y=0 ${payload.axis}=${payload.value}`);
-		}
-	    this.socket_channel.on('shout', handle_player_update_position);
+
+	    this.online_players = {}
+	    this.addOnlinePlayer('-1', 'NonPlayingCharacter', {x: 300, y: 0, z: 0})
+
     }
 
     loadInteractions(){
@@ -239,9 +269,9 @@ class Game{
 	  })
 	}
 
-	loadEnvironment(loader){
+	loadEnvironment(){
 	  const game = this;
-	  loader.load( `${this.assetsPath}game_environment.fbx`, function(object){
+	  this.FBXloader.load( `${this.assetsPath}game_environment.fbx`, function(object){
 		game.scene.add(object);
 		object.receiveShadow = true;
 		object.name = "Environment"
@@ -367,6 +397,14 @@ class Game{
 			}
 		  }
 		}
+
+	// update multiplayer objects
+        for(var player_id in this.online_players){
+	    var player = this.online_players[player_id]
+	    if (player.mixer != undefined){
+		    player.mixer.update(dt);
+	    }
+	}
 
 
         this.renderer.render( this.scene, this.camera );

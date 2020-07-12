@@ -89,7 +89,6 @@ function render_users(presence_list){
 	$("#users-data").empty()
 	presence_list.forEach((presence) => {
 		var presence_data = presence.metas[0]
-		;debugger
 		$("#users-data").append(
 			user_row_template(
 				presence_data.profile_picture_url, 
