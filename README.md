@@ -11,6 +11,35 @@ Read the blog post at http://www.lessand.ro/15/post.
 You can read the docs at https://dixord.herokuapp.com/index.html
 Docs are generated with ex\_doc, and served statically from `priv/static`.
 
+## LiveView/Sockets
+
+We used to be server side rendered, but we found out that you can't do that while running tha game renderning loop.
+Now we use Sockets, the workflow is a bit crappy but it works
+
+- liveview uses pow to render the current user in the lhc
+- javscript get the user id from there and use it to authenticate the socket
+- the socket is use to broadcast and receive updates for the multiplayer game.
+
+### Current problems 
+
+1) people can hack it and impersonate other people sending a different `user_id` 
+to the socket.connect method. For that we should look into Phoenix.Token
+2) we are still using half LiveView half Socket, that's weird and we should move only to sockets and deprecate liveview
+
+### Reading
+To read about this here are some docs
+- https://hexdocs.pm/phoenix/presence.html
+- https://hexdocs.pm/phoenix/js/
+- https://stackoverflow.com/questions/61145981/how-to-authenticate-a-phoenix-socket-using-pow
+
+## How to add new multiplayer data
+
+1) add to template in socket.js as a hidden <p></p>
+2) go in elixir room_channel and change presence tracking data
+3) add a new handle_in functino if required (e.g. player-position-updated)
+4) in game.js broadcast the new value at the end of render function using sockets
+5) update your game logic with the new information received
+
 ## Phoenix
 
 To start your Phoenix server:

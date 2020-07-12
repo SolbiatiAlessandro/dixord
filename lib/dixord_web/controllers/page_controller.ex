@@ -10,13 +10,18 @@ defmodule DixordWeb.PageController do
   https://elixircasts.io/partial-templates-with-phoenix
   """
   use DixordWeb, :controller
-
-  def get_landing_chat_path(conn) do
-    landing_chat_id = 1
-    Routes.chat_path(conn, :show, landing_chat_id)
-  end
+  alias Dixord.Messaging
 
   def index(conn, _params) do
-    conn |> redirect(to: get_landing_chat_path(conn))
+    chat = Messaging.get_chat!(1)
+
+    Phoenix.LiveView.Controller.live_render(
+      conn,
+      Dixord.GameLiveView,
+      session: %{
+        "current_user" => conn.assigns.current_user,
+        "current_chat" => chat
+      }
+    )
   end
 end

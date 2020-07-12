@@ -15,7 +15,8 @@ defmodule DixordWeb.Endpoint do
   plug(Plug.Static,
     at: "/",
     from: :dixord,
-    gzip: false
+    gzip: false,
+    only: ~w(css fonts images js favicon.ico robots.txt fbx vendor sfx)
   )
 
   # Code reloading can be explicitly enabled under the

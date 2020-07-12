@@ -4,7 +4,7 @@ use Mix.Config
 config :dixord, Dixord.Repo,
   username: "postgres",
   password: "postgres",
-  database: "dixord_dev",
+  database: "dixord3d_dev",
   hostname: "localhost",
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
@@ -16,7 +16,7 @@ config :dixord, Dixord.Repo,
 # watchers to your application. For example, we use it
 # with webpack to recompile .js and .css sources.
 config :dixord, DixordWeb.Endpoint,
-  http: [port: 4000],
+  http: [ip: {192, 168, 0, 11}, port: 4000],
   debug_errors: true,
   code_reloader: true,
   check_origin: false,

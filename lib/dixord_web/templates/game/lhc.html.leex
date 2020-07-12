@@ -1,0 +1,33 @@
+      <div class="your-account-container" style="background-color:#2492247a; left:0px; width:15%;">
+      <%= if !@current_user.claimed do %>
+      <div class="p-3" style="background-color:#f26522;color:white;text-decoration:underline;">
+        <%= link "This is an unclaimed account, claim it before it's lost.", to: Routes.pow_registration_path(@conn, :new), class: "text-white text-bold" %>
+      </div>
+      <div class="w-100 p-3">
+        <%= render DixordWeb.PageView, "message_body.html",
+              assigns
+                |> Map.put(:message_content, "Temporary Account") 
+                |> Map.put(:message_inserted_at, "") 
+                |> Map.put(:user, @current_user)
+              %>
+      </div>
+    <% else %>
+      <div class="w-100 p-3">
+        <%= render DixordWeb.PageView, "message_body.html",
+              assigns
+|> Map.put(:message_content, "Level: #{length(@current_user.messages)}") 
+                |> Map.put(:message_inserted_at, "") 
+                |> Map.put(:user, @current_user)
+              %>
+      </div>
+
+    <% end %>
+      <p class="d-none" id="player_username"><%= @current_user.username %></p>
+      <p class="d-none" id="player_id"><%= @current_user.id %></p>
+      <p class="d-none" id="player_position" phx-hook="PlayerPosition"></p>
+      <p class="d-none" id="player_rotation" x=0 y=0 z=0></p>
+    <div style="padding:20px;border-top: 1px solid black;">
+    <button id="sfx-btn" style="background:green; font-size: 25px; color: #fff;"
+                ><i class="fas fa-volume-up">Sound On</i></button>
+    </div>
+      </div>
