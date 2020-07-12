@@ -32,6 +32,13 @@ To read about this here are some docs
 - https://hexdocs.pm/phoenix/js/
 - https://stackoverflow.com/questions/61145981/how-to-authenticate-a-phoenix-socket-using-pow
 
+## How to add new multiplayer data
+
+1) add to template in socket.js as a hidden <p></p>
+2) go in elixir room_channel and change presence tracking data
+3) add a new handle_in functino if required (e.g. player-position-updated)
+4) in game.js broadcast the new value at the end of render function using sockets
+5) update your game logic with the new information received
 
 ## Phoenix
 

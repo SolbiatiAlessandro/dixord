@@ -207,6 +207,14 @@ class Game{
 	})
     }
 
+    updateOnlinePlayerPosition(player_id, axis){
+	    var position_info = $(`#player_${player_id}_position_${axis}`)[0]
+	    if(this.online_players[player_id] != undefined && this.online_players[player_id].object != undefined && position_info != undefined){
+		    var position = parseFloat(position_info.innerHTML);
+		    this.online_players[player_id].object.position[axis] = position
+	    }
+    }
+
     addOnlinePlayer(id, username, position){
 	    console.log("adding online player");
 	    if(this.online_players == undefined){
@@ -229,8 +237,8 @@ class Game{
 
 			object.name = "Character" + id
 			object.position.x = position.x
-			object.position.y = 0
-			object.position.z = 0
+			object.position.y = position.y
+			object.position.z = position.z
 			game.online_players[id].object = object
 			object.traverse( function (child){
 			  if ( child.isMesh ) {
@@ -426,11 +434,9 @@ class Game{
 		    player.mixer.update(dt);
 	    }
 
-	    var position_x_info = $(`#player_${player_id}_position_x`)[0]
-	    if(this.online_players[player_id] != undefined && this.online_players[player_id].object != undefined && position_x_info != undefined){
-		    var position_x = parseFloat(position_x_info.innerHTML);
-		    this.online_players[player_id].object.position.x = position_x
-	    }
+	    this.updateOnlinePlayerPosition(player_id, 'x')
+	    this.updateOnlinePlayerPosition(player_id, 'y')
+	    this.updateOnlinePlayerPosition(player_id, 'z')
 	}
 
 
@@ -439,7 +445,7 @@ class Game{
 
 		//after rendering broadcast data for multiplayer
 		if (this.player.object != undefined){;
-			['x'].forEach(function updateAxis(axis) {
+			['x', 'y', 'z'].forEach(function updateAxis(axis) {
 				// TODO: optimse to broadcast only when value changes
 				var axis_value = game.player.object.position[axis];
 				game.socket_channel.push('player-position-updated', {

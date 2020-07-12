@@ -21,7 +21,9 @@ defmodule DixordWeb.RoomChannel do
       username: user.username,
       profile_picture_url: user.profile_picture_url,
       position: %{
-        x: 0
+        x: 0,
+        y: 0,
+        z: 0
       }
     })
 

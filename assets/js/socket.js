@@ -63,7 +63,7 @@ channel.join()
   .receive("ok", resp => { console.log("Joined successfully", resp) })
   .receive("error", resp => { console.log("Unable to join", resp) })
 
-function user_row_template(profile_picture_url, username, id, position_x) {
+function user_row_template(profile_picture_url, username, id, position) {
   return `
   <li class="mt-2 d-flex align-items-start livechat-row">
       <div class="mr-3">
@@ -77,7 +77,9 @@ function user_row_template(profile_picture_url, username, id, position_x) {
         </div>
         <div class="body">
             <p>Online</p>
-	    <p id="player_${id}_position_x">${position_x}</p>
+	    <p class="d-none" id="player_${id}_position_x">${position.x}</p>
+	    <p class="d-none" id="player_${id}_position_y">${position.y}</p>
+	    <p class="d-none" id="player_${id}_position_z">${position.z}</p>
         </div>
       </div>
   </li>
@@ -99,7 +101,7 @@ function render_users(presence_list){
 				presence_data.profile_picture_url, 
 				presence_data.username,
 				presence_data.user_id,
-				presence_data.position.x
+				presence_data.position
 			))
 		// add to game
 		if( presence_data.user_id != user_id ){
