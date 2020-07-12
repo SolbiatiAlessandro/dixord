@@ -377,7 +377,7 @@ class Game{
 			['x'].forEach(function updateAxis(axis) {
 				// TODO: optimse to broadcast only when value changes
 				var axis_value = game.player.object.position[axis];
-				game.socket_channel.push('shout', {
+				game.socket_channel.push('player-position-updated', {
 				  player_id:  game.player.id,
 				  axis: axis,
 				  value: axis_value

@@ -63,7 +63,7 @@ channel.join()
   .receive("ok", resp => { console.log("Joined successfully", resp) })
   .receive("error", resp => { console.log("Unable to join", resp) })
 
-function user_row_template(profile_picture_url, username) {
+function user_row_template(profile_picture_url, username, id, position_x) {
   return `
   <li class="mt-2 d-flex align-items-start livechat-row">
       <div class="mr-3">
@@ -77,6 +77,7 @@ function user_row_template(profile_picture_url, username) {
         </div>
         <div class="body">
             <p>Online</p>
+	    <p id="player_${id}_position_x">${position_x}</p>
         </div>
       </div>
   </li>
@@ -88,7 +89,14 @@ function render_users(presence_list){
 	$("#users-data").empty()
 	presence_list.forEach((presence) => {
 		var presence_data = presence.metas[0]
-		$("#users-data").append(user_row_template(presence_data.profile_picture_url, presence_data.username))
+		;debugger
+		$("#users-data").append(
+			user_row_template(
+				presence_data.profile_picture_url, 
+				presence_data.username,
+				presence_data.user_id,
+				presence_data.position.x
+			))
 	})
 }
 let presence = new Presence(channel)
