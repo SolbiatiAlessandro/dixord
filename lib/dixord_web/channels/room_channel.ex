@@ -14,7 +14,12 @@ defmodule DixordWeb.RoomChannel do
   end
 
   def handle_info(:after_join, socket) do
-    Presence.track_user_join(socket, socket.assigns.current_user)
+    user = socket.assigns.current_user
+
+    Presence.track(socket, user.id, %{
+      user_id: user.id
+    })
+
     push(socket, "presence_state", Presence.list(socket))
 
     {:noreply, socket}
