@@ -63,10 +63,33 @@ channel.join()
   .receive("ok", resp => { console.log("Joined successfully", resp) })
   .receive("error", resp => { console.log("Unable to join", resp) })
 
+function user_row_template(profile_picture_url, username) {
+  return `
+  <li class="mt-2 d-flex align-items-start livechat-row">
+      <div class="mr-3">
+        <img src="${profile_picture_url}"/>
+      </div>
+      <div>
+        <div class="d-flex aligns-items-end">
+            <h5 class="mr-3 mb-1">
+              ${username}
+            </h5>
+        </div>
+        <div class="body">
+            <p>Online</p>
+        </div>
+      </div>
+  </li>
+  `
+}
+
 // PResence
 function render_users(presence_list){
-	console.log("Render_users")
-	console.log(presence_list)
+	$("#users-data").empty()
+	presence_list.forEach((presence) => {
+		var presence_data = presence.metas[0]
+		$("#users-data").append(user_row_template(presence_data.profile_picture_url, presence_data.username))
+	})
 }
 let presence = new Presence(channel)
 
@@ -87,9 +110,10 @@ presence.onLeave((id, current, leftPres) => {
     console.log("user left from a device", leftPres)
   }
 })
+
 // receive presence data from server
 presence.onSync(() => {
-  console.log(presence.list())
+  render_users(presence.list())
 })
 window.presence = presence
 

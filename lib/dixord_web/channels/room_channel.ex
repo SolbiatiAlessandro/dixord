@@ -17,7 +17,9 @@ defmodule DixordWeb.RoomChannel do
     user = socket.assigns.current_user
 
     Presence.track(socket, user.id, %{
-      user_id: user.id
+      user_id: user.id,
+      username: user.username,
+      profile_picture_url: user.profile_picture_url
     })
 
     push(socket, "presence_state", Presence.list(socket))
