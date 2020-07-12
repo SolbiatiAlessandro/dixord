@@ -26,6 +26,13 @@ Now we use Sockets, the workflow is a bit crappy but it works
 to the socket.connect method. For that we should look into Phoenix.Token
 2) we are still using half LiveView half Socket, that's weird and we should move only to sockets and deprecate liveview
 
+### Reading
+To read about this here are some docs
+- https://hexdocs.pm/phoenix/presence.html
+- https://hexdocs.pm/phoenix/js/
+- https://stackoverflow.com/questions/61145981/how-to-authenticate-a-phoenix-socket-using-pow
+
+
 ## Phoenix
 
 To start your Phoenix server:
