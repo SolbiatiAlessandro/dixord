@@ -55,6 +55,7 @@
       </div>
     <% else %>
       <div class="w-100 p-3">
+        
         <%= render DixordWeb.PageView, "message_body.html",
               assigns
 |> Map.put(:message_content, "Messages Sent: #{length(@current_user.messages)}") 
@@ -64,6 +65,10 @@
       </div>
 
       <% end %>
+        <p class="d-none" id="user-id"><%= @current_user.id %></p>
+        <p class="d-none" id="user-name"><%= @current_user.username %></p>
+        <p class="d-none" id="user-profile-picture-url"><%= @current_user.profile_picture_url %></p>
+        <p class="d-none" id="user-link"><%= Routes.user_path(@conn, :show, @current_user) %></p>
       </div>
     </div>
   </div>

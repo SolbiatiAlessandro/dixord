@@ -14,13 +14,9 @@ defmodule DixordWeb.Components.ChatDescription do
   def render(assigns) do
     ~H"""
     <div class="row" style="margin-top:20%;margin-bottom:10%;">
-      <div class="col-md-3"></div>
-      <div class="col-md-6 col-sm-auto">
         <h1 class="text-center mb-3">#{{ @name }}</h1>
         <DixordWeb.Components.ChatDescription.Default :if={{ @description == "" }} />
         <DixordWeb.Components.ChatDescription.Row icon="bang" description="{{ @description }}" :if={{ @description != "" }} />
-      </div>
-      <div class="col-md-3"></div>
     </div>
     """
   end

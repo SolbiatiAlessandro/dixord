@@ -1,6 +1,17 @@
+<p class="d-none" id='chat-id'><%= @current_chat.id %></p>
 <div class="row w-100 ml-0" >
   <%= render "lhc.html", assigns %>
-  <div class="col-md-8">
+  <div class="col-md-5">
+   <div class="video-container">
+        <form class="src-container-direct">
+            <input class="src-input" placeholder="Enter .m3u8" />
+            <button class="src-submit" type="submit">Load</button>
+        </form>
+        <video id="amazon-ivs-videojs" class="video-js vjs-4-3 vjs-big-play-centered" controls autoplay playsinline>
+        </video>
+   </div>
+  </div>
+  <div class="col-md-3">
     <ul id='msg-list' class='chatview' phx-hook="MsgList">
       <%= DixordWeb.Components.ChatDescription.render(
               assigns |> Map.put(:name, @current_chat.name)
@@ -17,19 +28,12 @@
     </ul>
     <div class="composer ml-3 mr-3">
       <div class="mb-1">
-        <%= for user <- @users_presence do %>
-          <%= if user.typing do %>
-            <span class="font-weight-light text-secondary">
-              <%= user.username %> is typing...
-            </span>
-          <% end %>
-        <% end %>
+        <span class="d-none font-weight-light text-secondary">
+          user is typing...
+        </span>
       </div>
       <div>
-        <%= form_for @message, "#", [phx_change: :typing, phx_submit: :message], fn _f -> %>
-          <%= text_input :message, :content, value: @message.changes[:content], phx_blur: "stop_typing", placeholder: "Message #"<>@current_chat.name, class: 'form-control' %>
-          <%= submit "send", class: 'd-none' %>
-        <% end %>
+        <input id="message-input" class="form-control" placeholder="message the chat.." type="text">
       </div>
     </div>
   </div>

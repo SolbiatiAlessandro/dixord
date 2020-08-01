@@ -15,18 +15,5 @@ import "phoenix_html"
 //
 // Local files can be imported directly using relative paths, for example:
 // import socket from "./socket"
-import {Socket} from "phoenix"
+import socket from "./socket"
 
-import LiveSocket from "phoenix_live_view"
-
-let Hooks = {}
-Hooks.MsgList = {
-	updated() {
-		console.log("msglist updated")
-		$('#msg-list').children()[$('#msg-list').children().length - 1].scrollIntoView()
-	}
-}
-
-let liveSocket = new LiveSocket("/live", Socket, {hooks: Hooks})
-liveSocket.connect()
-window.liveSocket = liveSocket

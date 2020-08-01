@@ -1,0 +1,40 @@
+body {
+    margin: 0;
+}
+
+.src-container-direct {
+    margin-bottom: 15px;
+    text-align: center;
+
+    input {
+        padding: 10px 5px;
+        width: 186px;
+    }
+
+    .customer-id-input {
+        margin-right: 10px;
+    }
+
+    .src-input {
+        width: 400px;
+    }
+}
+
+.src-submit {
+    height: 37px;
+    border-color: #ddd;
+    margin: 1px 5px;
+}
+
+.video-container {
+    width: 640px;
+    height: 480px;
+    margin: 15px;
+}
+
+/* Align the quality menu to right side of video container */
+.video-js .vjs-menu-button-popup .vjs-menu {
+    left: auto;
+    right: 0;
+}
+

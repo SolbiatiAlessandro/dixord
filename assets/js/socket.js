@@ -6,9 +6,14 @@
 //
 // Pass the token on params as below. Or remove it
 // from the params if you are not using authentication.
-import {Socket} from "phoenix"
+import {Presence, Socket} from "phoenix"
 
-let socket = new Socket("/socket", {params: {token: window.userToken}})
+var user_id = $("#user-id")[0].innerHTML
+var chat_id = $("#chat-id")[0].innerHTML
+var user_name = $("#user-name")[0].innerHTML
+var user_profile_picture_url = $("#user-profile-picture-url")[0].innerHTML
+var user_link = $("#user-link")[0].innerHTML
+let socket = new Socket("/socket", {params: {user_id: user_id, chat_id: chat_id}})
 
 // When you connect, you'll often need to authenticate the client.
 // For example, imagine you have an authentication plug, `MyAuth`,
@@ -61,5 +66,116 @@ channel.join()
   .receive("ok", resp => { console.log("Joined successfully", resp) })
   .receive("error", resp => { console.log("Unable to join", resp) })
 */
+// Now that you are connected, you can join channels with a topic:
+let channel = socket.channel("room:lobby", {})
+window.channel = channel
+
+channel.join()
+  .receive("ok", resp => { console.log("Joined successfully", resp) })
+  .receive("error", resp => { console.log("Unable to join", resp) })
+
+function user_row_template(profile_picture_url, username) {
+  return `
+  <li class="mt-2 d-flex align-items-start livechat-row">
+      <div class="mr-3">
+        <img src="${profile_picture_url}"/>
+      </div>
+      <div>
+        <div class="d-flex aligns-items-end">
+            <h5 class="mr-3 mb-1">
+              ${username}
+            </h5>
+        </div>
+      </div>
+  </li>
+  `
+}
+
+function chat_row_template(message, author_name, author_link, author_profile_pic, time){
+	return `
+	<li class="mt-2 d-flex align-items-start livechat-row">
+      <div class="mr-3">
+<a class="text-light" href="${author_link}">          <img src="${author_profile_pic}">
+</a>      </div>
+      <div>
+        <div class="d-flex aligns-items-end">
+            <h5 class="mr-3 mb-1">
+<a class="text-light" href="${author_link}">${author_name}</a>            </h5>
+              <p class="font-weight-light text-secondary mb-1">
+${time}              </p>
+        </div>
+        <div class="body">
+            <p>
+	    ${message}
+	    </p>
+        </div>
+      </div>
+  </li>`;
+}
+
+// PResence
+function render_users(presence_list){
+	$("#users-data").empty()
+	var online_players_id = presence_list.map((x) => (x.metas[0].user_id))
+	// NOT WORKING: for some reason remove immediately players that should not be removed
+	// and prevent other users to be shown
+	//window.game.removeOfflinePlayers(online_players_id)
+	presence_list.forEach((presence) => {
+		// add to lhc list
+		var presence_data = presence.metas[0]
+		$("#users-data").append(
+			user_row_template(
+				presence_data.profile_picture_url, 
+				presence_data.username
+			))
+	})
+}
+let presence = new Presence(channel)
+
+// detect if user has joined for the 1st time or from another tab/device
+presence.onJoin((id, current, newPres) => {
+  if(!current){
+    console.log("user has entered for the first time", newPres)
+  } else {
+    console.log("user additional presence", newPres)
+  }
+})
+
+// detect if user has left from all tabs/devices, or is still present
+presence.onLeave((id, current, leftPres) => {
+  if(current.metas.length === 0){
+    console.log("user has left from all devices", leftPres)
+  } else {
+    console.log("user left from a device", leftPres)
+  }
+})
+
+// receive presence data from server
+presence.onSync(() => {
+  render_users(presence.list())
+})
+window.presence = presence
+
+channel.on("shout", ( payload ) => {
+	var new_message = chat_row_template(payload.message, payload.user_name, payload.user_link, payload.user_profile_picture_url, 'sent recently');
+	$("#msg-list").append(new_message);
+	$("#msg-list")[0].children[$("#msg-list")[0].children.length - 1].scrollIntoView();
+});
+
+$(function() {
+	$("#message-input").keypress( e => {
+		if (e.which === 13){
+		console.log("pushing message");
+		var payload = {message: e.target.value, user_name: user_name, user_link: user_link, user_profile_picture_url: user_profile_picture_url}
+		console.log(payload);
+		channel.push("shout", payload, 10000)
+		    .receive("ok", (msg) => console.log("created message", msg) )
+		    .receive("error", (reasons) => console.log("create failed", reasons) )
+		    .receive("timeout", () => console.log("Networking issue...") )
+		e.target.value = '';
+		}
+
+	})
+})
 
 export default socket
