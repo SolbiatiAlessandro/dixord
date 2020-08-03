@@ -114,8 +114,9 @@ body{
    }
 
 .lhc-channel-name{
-    font-size: 18px;
-    font-weight: 400;
+    font-size: 16px;
+    font-weight: 600;
+    vertical-align: top;
     color: #8e9297;
 }
 
