@@ -1,5 +1,5 @@
 # This file is responsible for configuring your application
-# j and its dependencies with the aid of the Mix.Config module.
+# and its dependencies with the aid of the Mix.Config module.
 #
 # This configuration file is loaded before any dependency and
 # is restricted to this project.
@@ -12,13 +12,13 @@ config :dixord,
 
 # Configures the endpoint
 config :dixord, DixordWeb.Endpoint,
-  http: [ip: {192, 168, 0, 11}],
+  url: [host: "localhost"],
   secret_key_base: "HtTG2+UPHVzR9sfnFvYstr1Upb+2RjghLk5pNBcTH+24uFHMPxUkjdwKzzd9+TNG",
   render_errors: [view: DixordWeb.ErrorView, accepts: ~w(html json)],
   pubsub: [name: Dixord.PubSub, adapter: Phoenix.PubSub.PG2],
   live_view: [
-    signing_salt: "Dd+wSzCozE4bmbmYJ2IzTTwFQGq3lISA"
-  ]
+	  signing_salt: "Dd+wSzCozE4bmbmYJ2IzTTwFQGq3lISA"
+	]
 
 # Configures Elixir's Logger
 config :logger, :console,
